@@ -1,18 +1,10 @@
 package Boss;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.GameMode;
 import org.bukkit.Location;
-import org.bukkit.Sound;
 import org.bukkit.World;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
@@ -23,13 +15,11 @@ public class Boss extends JavaPlugin implements Listener {
 	private static Boss instance;
 	FileConfiguration config = getConfig();
 	
-	int i, b, t, o, cr;
+	
 	List<Player> players = new ArrayList<>();
 	Pos pos;
-	Player q;
 	List<World> worlds = new ArrayList<>();
 	Location locc;
-	Timer timer=new Timer();
 	
 	public static Boss instance(){
 		return instance;
@@ -59,7 +49,13 @@ public class Boss extends JavaPlugin implements Listener {
 	
 	public void onEnable(){
 		Bukkit.getServer().getPluginManager().registerEvents(this, this);
-		this.saveDefaultConfig();
+		Bukkit.getServer().getPluginManager().registerEvents( new Commands(this), this);
+		getCommand("bcreate").setExecutor(new Commands(this));
+		getCommand("setlobby").setExecutor(new Commands(this));
+		getCommand("breload").setExecutor(new Commands(this));
+		getCommand("bpos1").setExecutor(new Commands(this));
+		getCommand("bpos2").setExecutor(new Commands(this));
+		
 		pos = new Pos(config.getString("Locations.lobby.world"), 
 				config.getDouble("Locations.lobby.x"), 
 				config.getDouble("Locations.lobby.y"), 
@@ -72,92 +68,8 @@ public class Boss extends JavaPlugin implements Listener {
 		players.clear();
 	}
 	
-	public boolean chekSender (CommandSender sen){
-		if(sen instanceof Player){return false;}return true;		
-	}
 	
-	public boolean onCommand (CommandSender sen, Command cmd, String label, String[] args){
-		if(cmd.getName().equalsIgnoreCase("bcreate")){
-			if(chekSender(sen)){
-				sen.sendMessage(ChatColor.RED + "Only players can use this command");
-				return true;
-			}if(!(args.length==1)) return false;
-			@SuppressWarnings("unused")
-			File arena = new File(args[0] + ".yml");
-			cr = 1;
-			sen.sendMessage("Происходит установка арены!");
-		}
-		
-		if(cmd.getName().equalsIgnoreCase("breload")){
-			reloadConfig();
-			onDisable();
-			onEnable();
-			sen.sendMessage(ChatColor.GREEN + "Plugin BossWars was reloaded");
-		}
-		
-		if(cmd.getName().equalsIgnoreCase("setlobby")){	
-			if(chekSender(sen)){
-				sen.sendMessage(ChatColor.RED + "Only players can use this command");
-				return true;
-			}if(args.length==0)return false;
-			Player p = (Player) sen;
-			Location loc = p.getLocation();
-			locToConfig(args[0], loc);
-			sen.sendMessage(ChatColor.GREEN + "Лобби установлено");
-			return true;
-		}
-		
-		if(cmd.getName().equalsIgnoreCase("enter")){
-			if(chekSender(sen)){
-				sen.sendMessage(ChatColor.RED + "Only players can use this command");
-				return true;
-			}
-			Player p = (Player) sen;
-			/*if(players.contains(p)){
-				p.sendMessage(ChatColor.RED + "Вы уже в очереди!!!");
-				return true;
-			}*/
-			players.add(p);
-			p.sendMessage(ChatColor.GREEN + "Вы вошли в очередь");
-			if(players.size() == 2){
-				for(i=0; i<2; i++){
-					p = players.get(i);
-					World world = Bukkit.getWorld(pos.worldName);
-					p.teleport(new Location(world, pos.x, pos.y, pos.z));
-					p.setGameMode(GameMode.SURVIVAL);
-					p.setExp(0);
-				}
-				toPlay();
-			
-			}
-			if(players.size() > 2) {
-				World world = Bukkit.getWorld(pos.worldName);
-				p.teleport(new Location(world, pos.x, pos.y, pos.z));
-				p.setGameMode(GameMode.SURVIVAL);
-				p.setExp(0);
-			}
-		return true;
-		}
-		return true;
-	
-	}
-	TimerTask mytimer = new myTask();
 	
 
-	public void toPlay(){
-		i = 15;
-			timer.schedule( mytimer,1000, 1000);
-	}public class myTask extends TimerTask{
-		public void run(){
-			if(i<0)return;
-			b = players.size();
-			for(o=0;o<b;o++){
-				q = players.get(o);
-				q.setLevel(i);
-				if(i<=3)q.playSound(q.getLocation(), Sound.LEVEL_UP, 1, 1);
-				else q.playSound(q.getLocation(), Sound.SUCCESSFUL_HIT, 1, 1);
-				}
-			i--;
-		}
-		}
+	
 }
