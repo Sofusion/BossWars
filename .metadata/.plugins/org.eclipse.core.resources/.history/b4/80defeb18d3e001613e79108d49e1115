@@ -1,0 +1,30 @@
+package Boss;
+
+import org.bukkit.Location;
+import org.bukkit.configuration.file.FileConfiguration;
+
+public class locAndConfig {
+	public class Pos {
+	    public String worldName;
+	    public int x, y, z;
+	 
+	    public Pos(String name, int x, int y, int z) {
+	        worldName = name;
+	        this.x = x;
+	        this.y = y;
+	        this.z = z;
+	    }
+	}
+	FileConfiguration boss;
+	public locAndConfig(Boss boss) {
+		
+	}
+	public void locToConfig(String name, Location loc){
+		config.set("Locations." + name + "world", loc1.getWorld());
+		config.set("Locations." + name + ".x", loc1.getX());
+		config.set("Locations." + name + ".y", loc1.getY());
+		config.set("Locations." + name + ".z", loc1.getZ());
+		saveConfig();
+	}
+	
+}

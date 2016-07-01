@@ -1,0 +1,12 @@
+name: Boss
+main: Boss.Boss
+description: It`s minigame by _MediaNik_ (Idea by http://forum.minecorp.ru/viewtopic.php?pid=57447)
+version: 0.1.0 Beta
+
+commands:
+  enter:
+    usage: /enter
+  setlobby:
+    usage: /setlobby <world> <x> <y> <z> or /setlobby <world> (x,y,z will be find automatical)
+  breload:
+    usage: /breload

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/gdk1"/>
+	<classpathentry kind="lib" path="D:/мини/загрузка/bukkit-1.7.2-R0.3.jar"/>
+	<classpathentry kind="lib" path="D:/мини/сервер/plugins/Essentials-2.x-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="D:/мини/сервер/plugins/EssentialsChat-2.x-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="D:/мини/сервер/plugins/EssentialsSpawn-2.x-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="D:/мини/сервер/plugins/worldedit-bukkit-6.0.2-SNAPSHOT-dist.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
