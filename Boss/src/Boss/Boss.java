@@ -16,6 +16,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class Boss extends JavaPlugin implements Listener {
@@ -140,7 +141,9 @@ public class Boss extends JavaPlugin implements Listener {
 		}
 		return true;
 	}
-	
+	public void onPlayerQuit(PlayerQuitEvent e){
+		if(players.contains(e.getPlayer()))players.remove(e.getPlayer());
+	}
 	
 	public void toLobby(){
 		i = 15;
