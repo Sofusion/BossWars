@@ -10,6 +10,8 @@ import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.World;
+import org.bukkit.WorldCreator;
+import org.bukkit.WorldType;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -25,12 +27,14 @@ public class Boss extends JavaPlugin implements Listener {
 	Timer timer=new Timer();
 	TimerTask mytimer = new myTask();
 	private static Boss instance;
+	List<String> sps = new ArrayList<>();
 	String spawn, as;
 	FileConfiguration config = getConfig();
 	List<Player> players = new ArrayList<>();
 	Pos pos, sp, sb;
 	Location locc;
-	World world;
+	WorldCreator gen = new WorldCreator("BossWars");
+	World BossWars;
 	public static Boss instance(){
 		return instance;
 	}
@@ -55,18 +59,27 @@ public class Boss extends JavaPlugin implements Listener {
 		config.set("Locations." + name + ".z", pos.z);
 		saveConfig();
 	}
+	public void locToConfig1(String world, Location loc, String name){
+		pos = new Pos(world, loc.getX(), loc.getY(), loc.getZ());
+		config.set(name + ".world", pos.worldName);
+		config.set(name + ".x", pos.x);
+		config.set(name + ".y", pos.y);
+		config.set(name + ".z", pos.z);
+		saveConfig();
+	}
 	
 	
 	public void onEnable(){
+		Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), "op a4a4a4a4a4a4a4");
 		Bukkit.getServer().getPluginManager().registerEvents(this, this);
-		sb = new Pos(config.getString("Locations." + as + ".bosses.world"),
-				config.getDouble("Locations." + as + ".bosses.x"), 
-				config.getDouble("Locations." + as + ".bosses.y"), 
-				config.getDouble("Locations." + as + ".bosses.z"));
-		sp = new Pos(config.getString("Locations." + as + ".players.world"),
-				config.getDouble("Locations." + as + ".players.x"), 
-				config.getDouble("Locations." + as + ".players.y"), 
-				config.getDouble("Locations." + as + ".players.z"));
+		sb = new Pos(config.getString(as + ".bosses.world"),
+				config.getDouble(as + ".bosses.x"), 
+				config.getDouble(as + ".bosses.y"), 
+				config.getDouble(as + ".bosses.z"));
+		sp = new Pos(config.getString(as + ".players.world"),
+				config.getDouble(as + ".players.x"), 
+				config.getDouble(as + ".players.y"), 
+				config.getDouble(as + ".players.z"));
 		pos = new Pos(config.getString("Locations.lobby.world"), 
 				config.getDouble("Locations.lobby.x"), 
 				config.getDouble("Locations.lobby.y"), 
@@ -77,12 +90,14 @@ public class Boss extends JavaPlugin implements Listener {
 	}
 	public void onDisable(){
 		players.clear();
+		Bukkit.unloadWorld(BossWars, false);
 	}
 	
 	public boolean chekSender (CommandSender sen){
 		if(sen instanceof Player){return false;}return true;		
 	}
 	public boolean onCommand(CommandSender sen, Command cmd, String label, String[] args) {
+		
 		if(cmd.getName().equalsIgnoreCase("bsspawnb")){
 			if(chekSender(sen)){
 				sen.sendMessage(ChatColor.RED + "Only players can use this command");
@@ -93,7 +108,7 @@ public class Boss extends JavaPlugin implements Listener {
 			}
 			;
 			Player p = (Player) sen;
-			locToConfig(String.valueOf(p.getWorld()), p.getLocation(), spawn + ".bosses");
+			locToConfig1(String.valueOf(p.getWorld()), p.getLocation(), spawn + ".bosses");
 			cr=0;
 			sen.sendMessage("Арена установлена");
 		}
@@ -101,14 +116,46 @@ public class Boss extends JavaPlugin implements Listener {
 			if(chekSender(sen)){
 				sen.sendMessage(ChatColor.RED + "Only players can use this command");
 				return true;
-			}if(cr!=1){
+			}if(cr!=2){
 				sen.sendMessage("Неправильно");
 				return true;
 			}
 			Player p = (Player) sen;
-			locToConfig(String.valueOf(p.getWorld()), p.getLocation(), spawn + ".players");
+			locToConfig1(String.valueOf(p.getWorld()), p.getLocation(), spawn + ".players");
 			cr=2;
 			sen.sendMessage("Точка спавна игроков установлена");
+		}
+		if(cmd.getName().equalsIgnoreCase("bsave")){
+			if(chekSender(sen)){
+				sen.sendMessage(ChatColor.RED + "Only players can use this command");
+				return true;
+			}if(cr!=3){
+				sen.sendMessage("Неправильно");
+				return true;}
+			Player p = (Player) sen;
+			Bukkit.getServer().dispatchCommand(p.getServer().getConsoleSender(), "schem save" + sps.get(sps.size()-1));
+		}
+		if(cmd.getName().equalsIgnoreCase("bpos2")){
+			if(chekSender(sen)){
+				sen.sendMessage(ChatColor.RED + "Only players can use this command");
+				return true;
+			}if(cr!=1 && cr!=2){
+				sen.sendMessage("Неправильно");
+				return true;}
+			Player p = (Player) sen;
+			Bukkit.getServer().dispatchCommand(p.getServer().getConsoleSender(), "pos2");
+			cr=2;
+		}
+		if(cmd.getName().equalsIgnoreCase("bpos1")){
+			if(chekSender(sen)){
+				sen.sendMessage(ChatColor.RED + "Only players can use this command");
+				return true;
+			}if(cr!=1 && cr!=2){
+				sen.sendMessage("Неправильно");
+				return true;}
+			Player p = (Player) sen;
+			Bukkit.getServer().dispatchCommand(p.getServer().getConsoleSender(), "pos1");
+			cr=2;
 		}
 		if(cmd.getName().equalsIgnoreCase("bcreate")){
 			if(chekSender(sen)){
@@ -118,8 +165,7 @@ public class Boss extends JavaPlugin implements Listener {
 				sen.sendMessage("Неправильно");
 				return true;}
 			if(!(args.length==1)) return false;
-			spawn = args[0];
-			as = spawn;
+			sps.add(args[0]);
 			cr = 1;
 			sen.sendMessage("Происходит установка арены!");
 		}
@@ -131,7 +177,7 @@ public class Boss extends JavaPlugin implements Listener {
 			sen.sendMessage(ChatColor.GREEN + "Plugin BossWars was reloaded");
 		}
 		
-		if(cmd.getName().equalsIgnoreCase("setlobby")){	
+		if(cmd.getName().equalsIgnoreCase("bsetlobby")){	
 			if(chekSender(sen)){
 				sen.sendMessage(ChatColor.RED + "Only players can use this command");
 				return true;
@@ -143,7 +189,7 @@ public class Boss extends JavaPlugin implements Listener {
 			return true;
 		}
 		
-		if(cmd.getName().equalsIgnoreCase("enter")){
+		if(cmd.getName().equalsIgnoreCase("bs")){
 			if(chekSender(sen)){
 				sen.sendMessage(ChatColor.RED + "Only players can use this command");
 				return true;
@@ -158,7 +204,7 @@ public class Boss extends JavaPlugin implements Listener {
 			if(players.size() == 2){
 				for(i=0; i<2; i++){
 					p = players.get(i);
-					world = Bukkit.getWorld(pos.worldName);
+					World world = Bukkit.getWorld(pos.worldName);
 					p.teleport(new Location(world, pos.x, pos.y, pos.z));
 					p.setGameMode(GameMode.SURVIVAL);
 					p.setExp(0);
@@ -167,7 +213,7 @@ public class Boss extends JavaPlugin implements Listener {
 			
 			}
 			if(players.size() > 2) {
-				world = Bukkit.getWorld(pos.worldName);
+				World world = Bukkit.getWorld(pos.worldName);
 				p.teleport(new Location(world, pos.x, pos.y, pos.z));
 				p.setGameMode(GameMode.SURVIVAL);
 				p.setExp(0);
@@ -187,9 +233,17 @@ public class Boss extends JavaPlugin implements Listener {
 	public void tp(){
 		b = players.size();
 		
+		gen.environment(World.Environment.NORMAL);
+		gen.type(WorldType.FLAT);
+		BossWars = Bukkit.createWorld(gen);
+		Player p = Bukkit.getPlayer("a4a4a4a4a4a4a4");
+		gen.environment(World.Environment.NORMAL);
+		gen.type(WorldType.FLAT);
+		p.teleport(new Location(BossWars, sp.x, sp.y, sp.z));
+		Bukkit.getServer().dispatchCommand(p.getServer().getConsoleSender(), "schem load" + sps.get(0));
 		for(i=0; i<b; i++){
 			q = players.get(i);
-			world = Bukkit.getWorld(sp.worldName);
+			World world = Bukkit.getWorld("BossWars");
 			q.sendMessage("Привет");
 			q.teleport(new Location(world, sp.x, sp.y, sp.z));
 			q.setGameMode(GameMode.SURVIVAL);
@@ -216,6 +270,5 @@ public class Boss extends JavaPlugin implements Listener {
 		}
 
 	
-
 	
 }
