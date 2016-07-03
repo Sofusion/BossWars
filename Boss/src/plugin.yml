@@ -7,12 +7,12 @@ commands:
   enter:
     usage: /enter
   setlobby:
-    usage: /setlobby <world> <x> <y> <z> or /setlobby (world,x,y,z will be find automatical)
+    usage: /setlobby <world> (x,y,z will be find automatical)
   breload:
     usage: /breload
   bcreate:
     usage: /bcreate <name>
-  bpos1:
-    usage: /bpos1
-  bpos2:
-    usage: /bpos2
+  bsspawn:
+    usage: /bsspawn <world> (x,y,z will be find automatical)
+  bsspawnb:
+    usage: /bsspawnb <world> (x,y,z will be find automatical)
