@@ -106,7 +106,6 @@ public class Boss extends JavaPlugin implements Listener {
 				sen.sendMessage("Неправильно");
 				return true;
 			}
-			;
 			Player p = (Player) sen;
 			locToConfig1(String.valueOf(p.getWorld()), p.getLocation(), spawn + ".bosses");
 			cr=0;
