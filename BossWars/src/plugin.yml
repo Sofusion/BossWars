@@ -1,6 +1,0 @@
-name: BossWars
-main: ru.BossWars.main.BossWars
-version: 0.0.1.0
-commands:
-  boss:
-    usage: /boss <command>

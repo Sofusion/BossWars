@@ -1,3 +1,30 @@
+/*
+ * Decompiled with CFR 0_115.
+ * 
+ * Could not load the following classes:
+ *  org.bukkit.Bukkit
+ *  org.bukkit.ChatColor
+ *  org.bukkit.Location
+ *  org.bukkit.Material
+ *  org.bukkit.Sound
+ *  org.bukkit.World
+ *  org.bukkit.block.Block
+ *  org.bukkit.command.CommandSender
+ *  org.bukkit.enchantments.Enchantment
+ *  org.bukkit.entity.Entity
+ *  org.bukkit.entity.EntityType
+ *  org.bukkit.entity.Item
+ *  org.bukkit.entity.LivingEntity
+ *  org.bukkit.entity.Player
+ *  org.bukkit.event.Listener
+ *  org.bukkit.event.entity.EntityDeathEvent
+ *  org.bukkit.event.entity.PlayerDeathEvent
+ *  org.bukkit.inventory.EntityEquipment
+ *  org.bukkit.inventory.ItemStack
+ *  org.bukkit.inventory.PlayerInventory
+ *  org.bukkit.potion.PotionEffect
+ *  org.bukkit.potion.PotionEffectType
+ */
 package ru.BossWars.inGame;
 
 import java.util.List;
@@ -9,6 +36,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.World;
+import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
@@ -23,713 +51,875 @@ import ru.BossWars.main.BossWars;
 import ru.BossWars.tp.Pos;
 import ru.BossWars.tp.toTp;
 
-public class inGame implements Listener{
-	
-	static int i;
-	static Timer t;
-	static Timer s;
-	static List<Player> pls;
-	static List<Player> Red;
-	static List<Player> Blue;
-	static Pos sr;
-	static Pos sb;
-	static Pos mr;
-	static Pos mb;
-	static int b=0;
-	static boolean boss1=false;
-	static boolean boos2=false;
-	static boolean boos3=false;
-	public static TimerTask tms = new TimerTask() {
-		
-		@Override
-		public void run() {
-			
-		}
-	};
-	static TimerTask tm = new TimerTask() {
-		public void run() {
-			Bukkit.getServer().getWorld(mr.worldName).setTime(6000);;
-			int b = BossWars.players.size();
-			for(int o=0;o<b;o++){
-				Player p = BossWars.players.get(o);
-				p.setLevel(i-1);
-				if(i<=3)p.playSound(p.getLocation(), Sound.LEVEL_UP, 1, 1);
-				else p.playSound(p.getLocation(), Sound.SUCCESSFUL_HIT, 1, 1);
-				}i--;
-				if(i==99|i==199|i==299|i==399|i==499|i==599|i==699|i==799){
-					for(int o=0;o<pls.size();o++){
-						pls.get(o).sendMessage("До начала спауна боссов "+((i+1)/100)+" минут.");
-					}
-					i=i-39;
-				}
-				if(i%3==0){
-					World world = Bukkit.getServer().getWorld(mr.worldName);
-					Location loc = new Location(world, mr.x, mr.y, mr.z);
-					LivingEntity l = (LivingEntity) world.spawnEntity(loc, EntityType.ZOMBIE);
-					l.setCustomName(ChatColor.RED+"Слабый враг");
-					l.setCustomNameVisible(true);
-					l.setCanPickupItems(false);
-					l.setHealth(15);
-					l.setMaxHealth(15);
-					l.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 5000, 1));
-				}
-				if(i%3==0){
-					World world = Bukkit.getServer().getWorld(mr.worldName);
-					Location loc = new Location(world, mb.x, mb.y, mb.z);
-					LivingEntity l = (LivingEntity) world.spawnEntity(loc, EntityType.ZOMBIE);
-					l.setCustomName(ChatColor.BLUE+"Слабый враг");
-					l.setCustomNameVisible(true);
-					l.setCanPickupItems(false);
-					l.setHealth(15);
-					l.setMaxHealth(15);
-					l.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 5000, 1));
-				}
-				if(i%8==0){
-					World world = Bukkit.getServer().getWorld(mr.worldName);
-					Location loc = new Location(world, mb.x, mb.y, mb.z);
-					LivingEntity l = (LivingEntity) world.spawnEntity(loc, EntityType.ZOMBIE);
-					l.getEquipment().setItemInHand(new ItemStack(Material.WOOD_SWORD));
-					ItemStack ch = new ItemStack(Material.LEATHER_CHESTPLATE);
-					ch.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1);
-					l.setCustomName(ChatColor.BLUE+"Враг");
-					l.setCustomNameVisible(true);
-					l.getEquipment().setChestplate(ch);
-					l.getEquipment().setChestplateDropChance(0);
-					l.getEquipment().setItemInHandDropChance(0);
-					l.setCustomName(ChatColor.RED+"Red");
-					l.setCustomNameVisible(true);
-					l.setCanPickupItems(false);
-					l.setHealth(25);
-					l.setMaxHealth(25);
-				}
-				if(i%8==0){
-					World world = Bukkit.getServer().getWorld(mr.worldName);
-					Location loc = new Location(world, mr.x, mr.y, mr.z);
-					LivingEntity l = (LivingEntity) world.spawnEntity(loc, EntityType.ZOMBIE);
-					l.getEquipment().setItemInHand(new ItemStack(Material.WOOD_SWORD));
-					ItemStack ch = new ItemStack(Material.LEATHER_CHESTPLATE);
-					ch.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1);
-					l.setCustomName(ChatColor.RED+"Враг");
-					l.setCustomNameVisible(true);
-					l.getEquipment().setChestplate(ch);
-					l.getEquipment().setChestplateDropChance(0);
-					l.getEquipment().setItemInHandDropChance(0);
-					l.setCustomName(ChatColor.RED+"Red");
-					l.setCustomNameVisible(true);
-					l.setCanPickupItems(false);
-					l.setHealth(25);
-					l.setMaxHealth(25);
-				}
-				if(i%15==0){
-					World world = Bukkit.getServer().getWorld(mr.worldName);
-					Location loc = new Location(world, mr.x, mr.y, mr.z);
-					ItemStack sword = new ItemStack(Material.WOOD_SWORD);
-					ItemStack chestplate = new ItemStack(Material.LEATHER_CHESTPLATE);
-					ItemStack leggins = new ItemStack(Material.LEATHER_LEGGINGS);
-					ItemStack helmet  =new ItemStack(Material.LEATHER_HELMET);
-					helmet.addEnchantment(Enchantment.DURABILITY, 5);
-					leggins.addEnchantment(Enchantment.DURABILITY, 5);
-					chestplate.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1);
-					sword.addEnchantment(Enchantment.DAMAGE_ALL, 1);
-					sword.addEnchantment(Enchantment.DURABILITY, 5);
-					LivingEntity l = (LivingEntity) world.spawnEntity(loc, EntityType.ZOMBIE);
-					l.setCustomName(ChatColor.RED+"Сильный враг");
-					l.setCustomNameVisible(true);
-					l.getEquipment().setItemInHand(sword);
-					l.getEquipment().setChestplate(chestplate);
-					l.getEquipment().setHelmet(helmet);
-					l.getEquipment().setLeggings(leggins);
-					l.getEquipment().setLeggingsDropChance(0);
-					l.getEquipment().setHelmetDropChance(0);
-					l.getEquipment().setChestplateDropChance(0);
-					l.getEquipment().setItemInHandDropChance(0);
-				}
-				if(i%15==0){
-					World world = Bukkit.getServer().getWorld(mr.worldName);
-					Location loc = new Location(world, mb.x, mb.y, mb.z);
-					ItemStack sword = new ItemStack(Material.WOOD_SWORD);
-					ItemStack chestplate = new ItemStack(Material.LEATHER_CHESTPLATE);
-					ItemStack leggins = new ItemStack(Material.LEATHER_LEGGINGS);
-					ItemStack helmet  =new ItemStack(Material.LEATHER_HELMET);
-					helmet.addEnchantment(Enchantment.DURABILITY, 5);
-					leggins.addEnchantment(Enchantment.DURABILITY, 5);
-					chestplate.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1);
-					sword.addEnchantment(Enchantment.DAMAGE_ALL, 1);
-					sword.addEnchantment(Enchantment.DURABILITY, 5);
-					LivingEntity l = (LivingEntity) world.spawnEntity(loc, EntityType.ZOMBIE);
-					l.setCustomName(ChatColor.BLUE+"Сильный враг");
-					l.getEquipment().setItemInHand(sword);
-					l.getEquipment().setChestplate(chestplate);
-					l.getEquipment().setHelmet(helmet);
-					l.getEquipment().setLeggings(leggins);
-					l.getEquipment().setLeggingsDropChance(0);
-					l.getEquipment().setHelmetDropChance(0);
-					l.getEquipment().setChestplateDropChance(0);
-					l.getEquipment().setItemInHandDropChance(0);
-				}
-				if(i%22==0){
-					World world = Bukkit.getServer().getWorld(mr.worldName);
-					Location loc = new Location(world, mb.x, mb.y, mb.z);
-					ItemStack sword = new ItemStack(Material.IRON_SWORD);
-					ItemStack chestplate = new ItemStack(Material.IRON_CHESTPLATE);
-					ItemStack leggins = new ItemStack(Material.LEATHER_LEGGINGS);
-					ItemStack helmet  =new ItemStack(Material.LEATHER_HELMET);
-					ItemStack boots = new ItemStack(Material.LEATHER_BOOTS);
-					helmet.addEnchantment(Enchantment.DURABILITY, 5);
-					leggins.addEnchantment(Enchantment.DURABILITY, 5);
-					chestplate.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1);
-					sword.addEnchantment(Enchantment.DAMAGE_ALL, 1);
-					sword.addEnchantment(Enchantment.DURABILITY, 5);
-					LivingEntity l = (LivingEntity) world.spawnEntity(loc, EntityType.ZOMBIE);
-					l.setCustomName(ChatColor.BLUE+"Сильнейший враг");
-					l.getEquipment().setBoots(boots);
-					l.getEquipment().setItemInHand(sword);
-					l.getEquipment().setChestplate(chestplate);
-					l.getEquipment().setHelmet(helmet);
-					l.getEquipment().setLeggings(leggins);
-					l.getEquipment().setBootsDropChance(0);
-					l.getEquipment().setLeggingsDropChance(0);
-					l.getEquipment().setHelmetDropChance(0);
-					l.getEquipment().setChestplateDropChance(0);
-					l.getEquipment().setItemInHandDropChance(0);
-				}
-				if(i%22==0){
-					World world = Bukkit.getServer().getWorld(mr.worldName);
-					Location loc = new Location(world, mr.x, mr.y, mr.z);
-					ItemStack sword = new ItemStack(Material.IRON_SWORD);
-					ItemStack chestplate = new ItemStack(Material.IRON_CHESTPLATE);
-					ItemStack leggins = new ItemStack(Material.LEATHER_LEGGINGS);
-					ItemStack helmet  =new ItemStack(Material.LEATHER_HELMET);
-					ItemStack boots = new ItemStack(Material.LEATHER_BOOTS);
-					helmet.addEnchantment(Enchantment.DURABILITY, 5);
-					leggins.addEnchantment(Enchantment.DURABILITY, 5);
-					chestplate.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1);
-					sword.addEnchantment(Enchantment.DAMAGE_ALL, 1);
-					sword.addEnchantment(Enchantment.DURABILITY, 5);
-					LivingEntity l = (LivingEntity) world.spawnEntity(loc, EntityType.ZOMBIE);
-					l.setCustomName(ChatColor.RED+"Сильнейший враг");
-					l.getEquipment().setBoots(boots);
-					l.getEquipment().setItemInHand(sword);
-					l.getEquipment().setChestplate(chestplate);
-					l.getEquipment().setHelmet(helmet);
-					l.getEquipment().setLeggings(leggins);
-					l.getEquipment().setBootsDropChance(0);
-					l.getEquipment().setLeggingsDropChance(0);
-					l.getEquipment().setHelmetDropChance(0);
-					l.getEquipment().setChestplateDropChance(0);
-					l.getEquipment().setItemInHandDropChance(0);
-				}
-				if(i%15==0){
-					World world = Bukkit.getServer().getWorld(mr.worldName);
-					Location loc = new Location(world, mr.x, mr.y, mr.z);
-					ItemStack bow = new ItemStack(Material.BOW);
-					ItemStack chestplate = new ItemStack(Material.LEATHER_CHESTPLATE);
-					chestplate.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1);
-					chestplate.addEnchantment(Enchantment.DURABILITY, 5);
-					bow.addEnchantment(Enchantment.ARROW_DAMAGE, 1);
-					bow.addEnchantment(Enchantment.DURABILITY, 5);
-					LivingEntity l = (LivingEntity) world.spawnEntity(loc, EntityType.SKELETON);
-					l.setCustomName(ChatColor.RED+"Стрелок");
-					l.setCustomNameVisible(true);
-					l.getEquipment().setItemInHand(bow);
-					l.getEquipment().setChestplate(chestplate);
-					l.getEquipment().setChestplateDropChance(0);
-					l.getEquipment().setItemInHandDropChance(0);
-				}
-				if(i%15==0){
-					World world = Bukkit.getServer().getWorld(mr.worldName);
-					Location loc = new Location(world, mb.x, mb.y, mb.z);
-					ItemStack bow = new ItemStack(Material.BOW);
-					ItemStack chestplate = new ItemStack(Material.LEATHER_CHESTPLATE);
-					chestplate.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1);
-					chestplate.addEnchantment(Enchantment.DURABILITY, 5);
-					bow.addEnchantment(Enchantment.ARROW_DAMAGE, 1);
-					bow.addEnchantment(Enchantment.DURABILITY, 5);
-					LivingEntity l = (LivingEntity) world.spawnEntity(loc, EntityType.SKELETON);
-					l.setCustomName(ChatColor.BLUE+"Стрелок");
-					l.setCustomNameVisible(true);
-					l.getEquipment().setItemInHand(bow);
-					l.getEquipment().setChestplate(chestplate);
-					l.getEquipment().setChestplateDropChance(0);
-					l.getEquipment().setItemInHandDropChance(0);
-				}
-		}
-	};
-	public static void Game(List<Player> pl, List<Player> comRed, List<Player> comBlue, Pos spr, Pos spb, Pos sbr, Pos sbb, Pos smr, Pos smb){
-		if(!(BossWars.inGame)){
-			return;
-		}
-		sr=spr;
-		sb=spb;
-		pls=pl;
-		mr=smr;
-		mb=smb;
-		Red=comRed;
-		Blue=comBlue;
-		Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "gamerule keepInventory true");
-		for(int i=0;i<1;i++){
-			World world = Bukkit.getWorld(spr.worldName);
-			Location loc1 = new Location(world, spr.x-2, spr.y-1, spr.z-2);
-			Location loc2 = new Location(world, spr.x+2, spr.y+3, spr.z+2);
-			for(double x= loc1.getX();x<loc2.getX();x++){
-				for(double y=loc1.getY();y<loc2.getY();y++){
-					for(double z=loc1.getZ();z<loc2.getZ();z++){
-						loc2.getWorld().getBlockAt(new Location(loc1.getWorld(), x, y, z)).setType(Material.GLASS);
-					}
-				}
-			}
-			loc1 = new Location(world, spr.x-1,spr.y,spr.z-1);
-			loc2 = new Location(world, spr.x+1, spr.y+2, spr.z+1);
-			for(double x= loc1.getX();x<loc2.getX();x++){
-				for(double y=loc1.getY();y<loc2.getY();y++){
-					for(double z=loc1.getZ();z<loc2.getZ();z++){
-						loc2.getWorld().getBlockAt(new Location(loc1.getWorld(), x, y, z)).setType(Material.AIR);
-					}
-				}
-			}
-		}
-		for(int i=0;i<1;i++){
-			World world = Bukkit.getWorld(spb.worldName);
-			Location loc1 = new Location(world, spb.x-2, spb.y-1, spb.z-2);
-			Location loc2 = new Location(world, spb.x+2, spb.y+3, spb.z+2);
-			for(double x= loc1.getX();x<loc2.getX();x++){
-				for(double y=loc1.getY();y<loc2.getY();y++){
-					for(double z=loc1.getZ();z<loc2.getZ();z++){
-						loc2.getWorld().getBlockAt(new Location(loc1.getWorld(), x, y, z)).setType(Material.GLASS);
-					}
-				}
-			}
-			loc1 = new Location(world, spb.x-1,spb.y,spb.z-1);
-			loc2 = new Location(world, spb.x+1, spb.y+2, spb.z+1);
-			for(double x= loc1.getX();x<loc2.getX();x++){
-				for(double y=loc1.getY();y<loc2.getY();y++){
-					for(double z=loc1.getZ();z<loc2.getZ();z++){
-						loc2.getWorld().getBlockAt(new Location(loc1.getWorld(), x, y, z)).setType(Material.AIR);
-					}
-				}
-			}
-		}
-		toTp.tp(spr, spb);
-		i=5;
-		t.schedule(tm, 1, 1000);
-		for(int i=0;i<1;i++){
-			World world = Bukkit.getWorld(spr.worldName);
-			Location loc1 = new Location(world, spr.x-2, spr.y-1, spr.z-2);
-			Location loc2 = new Location(world, spr.x+2, spr.y+3, spr.z+2);
-			for(double x= loc1.getX();x<loc2.getX();x++){
-				for(double y=loc1.getY();y<loc2.getY();y++){
-					for(double z=loc1.getZ();z<loc2.getZ();z++){
-						loc2.getWorld().getBlockAt(new Location(loc1.getWorld(), x, y, z)).setType(Material.AIR);
-					}
-				}
-			}
-		}
-		for(int i=0;i<1;i++){
-			World world = Bukkit.getWorld(spb.worldName);
-			Location loc1 = new Location(world, spb.x-2, spb.y-1, spb.z-2);
-			Location loc2 = new Location(world, spb.x+2, spb.y+3, spb.z+2);
-			for(double x= loc1.getX();x<loc2.getX();x++){
-				for(double y=loc1.getY();y<loc2.getY();y++){
-					for(double z=loc1.getZ();z<loc2.getZ();z++){
-						loc2.getWorld().getBlockAt(new Location(loc1.getWorld(), x, y, z)).setType(Material.AIR);
-					}
-				}
-			}
-		}
-		for(i=0;i<pl.size();i++){
-			pl.get(i).sendMessage("До начала спауна боссов 8 минут!");
-		}
-		i=800;
-		t.schedule(tm, 1, 1000);
-		comRed=Red;
-		comBlue=Blue;
-		pl=pls;
-		for(i=0;i<pl.size();i++){
-			pl.get(i).sendMessage("До начала спауна боссов пару секунд!");
-		}
-		for(int i=0;i<1;i++){
-			World world = Bukkit.getServer().getWorld(sbr.worldName);
-			Location loc = new Location(world, sbr.x, sbr.y, sbr.z);
-			LivingEntity l = (LivingEntity) loc.getWorld().spawnEntity(loc, EntityType.ZOMBIE);
-			ItemStack helmet = new ItemStack(Material.GOLD_HELMET);
-			ItemStack chestplate = new ItemStack(Material.IRON_CHESTPLATE);
-			ItemStack leggins = new ItemStack(Material.GOLD_LEGGINGS);
-			ItemStack boots = new ItemStack(Material.GOLD_BOOTS);
-			ItemStack sword = new ItemStack(Material.IRON_SWORD);
-			helmet.addEnchantment(Enchantment.DURABILITY, 5);
-			leggins.addEnchantment(Enchantment.DURABILITY, 5);
-			boots.addEnchantment(Enchantment.DURABILITY, 5);
-			chestplate.addEnchantment(Enchantment.DURABILITY, 5);
-			sword.addEnchantment(Enchantment.DURABILITY, 5);
-			helmet.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1);
-			chestplate.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 2);
-			leggins.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1);
-			boots.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1);
-			helmet.addEnchantment(Enchantment.WATER_WORKER, 2);
-			chestplate.addEnchantment(Enchantment.ARROW_KNOCKBACK, 1);
-			boots.addEnchantment(Enchantment.FIRE_ASPECT, 1);
-			sword.addEnchantment(Enchantment.DAMAGE_ALL, 1);
-			l.getEquipment().setChestplate(chestplate);
-			l.getEquipment().setHelmet(helmet);
-			l.getEquipment().setBoots(boots);
-			l.getEquipment().setItemInHand(sword);
-			l.getEquipment().setLeggings(leggins);
-			l.setMaxHealth(50);
-			l.setHealth(50);
-			l.setCustomName(ChatColor.RED+"Первый Босс");
-			l.setCustomNameVisible(true);
-			l.getEquipment().setBootsDropChance(100);
-			l.getEquipment().setChestplateDropChance(100);
-			l.getEquipment().setHelmetDropChance(100);
-			l.getEquipment().setItemInHandDropChance(100);
-			l.getEquipment().setLeggingsDropChance(100);
-			for(int b=0;b<Blue.size();b++){
-				Red.get(i).sendMessage("Первый Босс заспаунился");
-			}
-		}
-		for(int i=0;i<1;i++){
-			World world = Bukkit.getServer().getWorld(sbb.worldName);
-			Location loc = new Location(world, sbb.x, sbb.y, sbb.z);
-			LivingEntity l = (LivingEntity) loc.getWorld().spawnEntity(loc, EntityType.ZOMBIE);
-			ItemStack helmet = new ItemStack(Material.GOLD_HELMET);
-			ItemStack chestplate = new ItemStack(Material.IRON_CHESTPLATE);
-			ItemStack leggins = new ItemStack(Material.GOLD_LEGGINGS);
-			ItemStack boots = new ItemStack(Material.GOLD_BOOTS);
-			ItemStack sword = new ItemStack(Material.IRON_SWORD);
-			helmet.addEnchantment(Enchantment.DURABILITY, 5);
-			leggins.addEnchantment(Enchantment.DURABILITY, 5);
-			boots.addEnchantment(Enchantment.DURABILITY, 5);
-			chestplate.addEnchantment(Enchantment.DURABILITY, 5);
-			sword.addEnchantment(Enchantment.DURABILITY, 5);
-			helmet.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1);
-			chestplate.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 2);
-			leggins.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1);
-			boots.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1);
-			helmet.addEnchantment(Enchantment.WATER_WORKER, 2);
-			chestplate.addEnchantment(Enchantment.ARROW_KNOCKBACK, 1);
-			boots.addEnchantment(Enchantment.FIRE_ASPECT, 1);
-			sword.addEnchantment(Enchantment.DAMAGE_ALL, 1);
-			l.getEquipment().setChestplate(chestplate);
-			l.getEquipment().setHelmet(helmet);
-			l.getEquipment().setBoots(boots);
-			l.getEquipment().setItemInHand(sword);
-			l.getEquipment().setLeggings(leggins);
-			l.setMaxHealth(50);
-			l.setHealth(50);
-			l.setCustomName(ChatColor.BLUE+"Первый Босс");
-			l.setCustomNameVisible(true);
-			l.getEquipment().setBootsDropChance(100);
-			l.getEquipment().setChestplateDropChance(100);
-			l.getEquipment().setHelmetDropChance(100);
-			l.getEquipment().setItemInHandDropChance(100);
-			l.getEquipment().setLeggingsDropChance(100);
-			for(int b=0;b<Blue.size();b++){
-				Blue.get(i).sendMessage("Первый Босс заспаунился");
-			}
-		}
-	}
-	public void onDeath(PlayerDeathEvent e){
-		if(!(BossWars.inGame)){
-			return;
-		}
-		for(int i=0;i<e.getDrops().size();i++){
-			e.getDrops().get(i).setType(Material.AIR);
-		}
-		Player p = e.getEntity();
-		if(pls.contains(p)){
-			if(Red.contains(p)){
-				World world = Bukkit.getServer().getWorld(sr.worldName);
-				p.setHealth(20.0);
-				p.teleport(new Location(world, sr.x, sr.y, sr.z));
-				for(int i=0;i<36;i++){
-					if(p.getInventory().getItem(i).getType()==Material.BRICK){
-						p.getLocation().getWorld().dropItemNaturally(p.getLocation(), p.getInventory().getItem(i));
-						p.getInventory().setItem(i, new ItemStack(Material.AIR));
-					}
-					if(p.getInventory().getItem(i).getType()==Material.IRON_INGOT){
-						p.getLocation().getWorld().dropItemNaturally(p.getLocation(), p.getInventory().getItem(i));
-						p.getInventory().setItem(i, new ItemStack(Material.AIR));
-					}
-					if(p.getInventory().getItem(i).getType()==Material.GOLD_INGOT){
-						p.getLocation().getWorld().dropItemNaturally(p.getLocation(), p.getInventory().getItem(i));
-						p.getInventory().setItem(i, new ItemStack(Material.AIR));
-					}
-					if(p.getInventory().getItem(i).getType()==Material.DIAMOND){
-						p.getLocation().getWorld().dropItemNaturally(p.getLocation(), p.getInventory().getItem(i));
-						p.getInventory().setItem(i, new ItemStack(Material.AIR));
-					}
-					if(p.getInventory().getItem(i).getType()==Material.EMERALD){
-						p.getLocation().getWorld().dropItemNaturally(p.getLocation(), p.getInventory().getItem(i));
-						p.getInventory().setItem(i, new ItemStack(Material.AIR));
-					}
-				}
-			}
-			if(Blue.contains(p)){
-				World world = Bukkit.getServer().getWorld(sb.worldName);
-				p.setHealth(20.0);
-				p.teleport(new Location(world, sb.x, sb.y, sb.z));
-				for(int i=0;i<36;i++){
-					if(p.getInventory().getItem(i).getType()==Material.BRICK){
-						p.getLocation().getWorld().dropItemNaturally(p.getLocation(), p.getInventory().getItem(i));
-						p.getInventory().setItem(i, new ItemStack(Material.AIR));
-					}
-					if(p.getInventory().getItem(i).getType()==Material.IRON_INGOT){
-						p.getLocation().getWorld().dropItemNaturally(p.getLocation(), p.getInventory().getItem(i));
-						p.getInventory().setItem(i, new ItemStack(Material.AIR));
-					}
-					if(p.getInventory().getItem(i).getType()==Material.GOLD_INGOT){
-						p.getLocation().getWorld().dropItemNaturally(p.getLocation(), p.getInventory().getItem(i));
-						p.getInventory().setItem(i, new ItemStack(Material.AIR));
-					}
-					if(p.getInventory().getItem(i).getType()==Material.DIAMOND){
-						p.getLocation().getWorld().dropItemNaturally(p.getLocation(), p.getInventory().getItem(i));
-						p.getInventory().setItem(i, new ItemStack(Material.AIR));
-					}
-					if(p.getInventory().getItem(i).getType()==Material.EMERALD){
-						p.getLocation().getWorld().dropItemNaturally(p.getLocation(), p.getInventory().getItem(i));
-						p.getInventory().setItem(i, new ItemStack(Material.AIR));
-					}
-				}
-			}
-		}
-	}
-	public void onBossDeath(EntityDeathEvent e){
-		LivingEntity l = e.getEntity();
-		if(l.getCustomName()==ChatColor.BLUE+"Первый Босс"){
-			for(int i=0;i<Blue.size();i++){
-				Blue.get(i).sendMessage(ChatColor.GREEN+"Вы победили первого босса, поздравляем!!!\nУ вас есть 60 секунд, чтобы подготовиться к следущему.");
-			}
-			if(!boss1){
-				for(int i=0;i<Red.size();i++){
-					Red.get(i).sendMessage(ChatColor.RED+"Вас обогнали Синие в убийстве первого босса!");
-				}
-			}
-			boss1=true;
-			t.schedule(tm, 60000);
-			for(int i=0;i<1;i++){
-				World world = Bukkit.getServer().getWorld(sb.worldName);
-				Location loc = new Location(world, sb.x, sb.y, sb.z);
-				LivingEntity le = (LivingEntity) loc.getWorld().spawnEntity(loc, EntityType.ZOMBIE);
-				ItemStack helmet = new ItemStack(Material.IRON_HELMET);
-				ItemStack chestplate = new ItemStack(Material.DIAMOND_CHESTPLATE);
-				ItemStack leggins = new ItemStack(Material.IRON_LEGGINGS);
-				ItemStack boots = new ItemStack(Material.IRON_BOOTS);
-				ItemStack sword = new ItemStack(Material.DIAMOND_SWORD);
-				helmet.addEnchantment(Enchantment.DURABILITY, 5);
-				leggins.addEnchantment(Enchantment.DURABILITY, 5);
-				boots.addEnchantment(Enchantment.DURABILITY, 5);
-				chestplate.addEnchantment(Enchantment.DURABILITY, 5);
-				sword.addEnchantment(Enchantment.DURABILITY, 5);
-				helmet.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1);
-				chestplate.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 2);
-				leggins.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 2);
-				boots.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1);
-				helmet.addEnchantment(Enchantment.WATER_WORKER, 2);
-				chestplate.addEnchantment(Enchantment.ARROW_KNOCKBACK, 1);
-				boots.addEnchantment(Enchantment.FIRE_ASPECT, 1);
-				sword.addEnchantment(Enchantment.DAMAGE_ALL, 2);
-				le.getEquipment().setChestplate(chestplate);
-				le.getEquipment().setHelmet(helmet);
-				le.getEquipment().setBoots(boots);
-				le.getEquipment().setItemInHand(sword);
-				le.getEquipment().setLeggings(leggins);
-				le.setMaxHealth(80);
-				le.setHealth(80);
-				le.setCustomName(ChatColor.BLUE+"Второй Босс");
-				le.setCustomNameVisible(true);
-				le.getEquipment().setBootsDropChance(100);
-				le.getEquipment().setChestplateDropChance(100);
-				le.getEquipment().setHelmetDropChance(100);
-				le.getEquipment().setItemInHandDropChance(100);
-				le.getEquipment().setLeggingsDropChance(100);
-				le.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 1, 25000));
-				for(int b=0;b<Blue.size();b++){
-					Red.get(i).sendMessage("Второй Босс заспаунился");
-				}
-			}
-		}
-		if(l.getCustomName()==ChatColor.BLUE+"Второй Босс"){
-			for(int i=0;i<Blue.size();i++){
-				Blue.get(i).sendMessage(ChatColor.GREEN+"Вы победили второго босса, поздравляем!!!\nУ вас есть 60 секунд, чтобы подготовиться к следущему.");
-			}
-			if(!boss1){
-				for(int i=0;i<Red.size();i++){
-					Red.get(i).sendMessage(ChatColor.RED+"Вас обогнали Синие в убийстве второго босса!");
-				}
-			}
-			boss1=true;
-			t.schedule(tm, 60000);
-			for(int i=0;i<1;i++){
-				World world = Bukkit.getServer().getWorld(sb.worldName);
-				Location loc = new Location(world, sb.x, sb.y, sb.z);
-				LivingEntity le = (LivingEntity) loc.getWorld().spawnEntity(loc, EntityType.WITHER);
-				ItemStack helmet = new ItemStack(Material.DIAMOND_HELMET);
-				ItemStack chestplate = new ItemStack(Material.DIAMOND_CHESTPLATE);
-				ItemStack leggins = new ItemStack(Material.DIAMOND_LEGGINGS);
-				ItemStack boots = new ItemStack(Material.DIAMOND_BOOTS);
-				ItemStack sword = new ItemStack(Material.DIAMOND_SWORD);
-				helmet.addEnchantment(Enchantment.DURABILITY, 5);
-				leggins.addEnchantment(Enchantment.DURABILITY, 5);
-				boots.addEnchantment(Enchantment.DURABILITY, 5);
-				chestplate.addEnchantment(Enchantment.DURABILITY, 5);
-				sword.addEnchantment(Enchantment.DURABILITY, 5);
-				helmet.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 3);
-				chestplate.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 4);
-				leggins.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 3);
-				boots.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 3);
-				helmet.addEnchantment(Enchantment.WATER_WORKER, 2);
-				chestplate.addEnchantment(Enchantment.ARROW_KNOCKBACK, 1);
-				boots.addEnchantment(Enchantment.FIRE_ASPECT, 1);
-				sword.addEnchantment(Enchantment.DAMAGE_ALL, 5);
-				le.getEquipment().setChestplate(chestplate);
-				le.getEquipment().setHelmet(helmet);
-				le.getEquipment().setBoots(boots);
-				le.getEquipment().setItemInHand(sword);
-				le.getEquipment().setLeggings(leggins);
-				le.setMaxHealth(80);
-				le.setHealth(80);
-				le.setCustomName(ChatColor.BLUE+"Сложнейший Босс");
-				le.setCustomNameVisible(true);
-				le.getEquipment().setBootsDropChance(100);
-				le.getEquipment().setChestplateDropChance(100);
-				le.getEquipment().setHelmetDropChance(100);
-				le.getEquipment().setItemInHandDropChance(100);
-				le.getEquipment().setLeggingsDropChance(100);
-				le.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 3, 25000));
-				for(int b=0;b<Blue.size();b++){
-					Red.get(i).sendMessage("Сложнейший Босс заспаунился");
-				}
-			}
-		}
-		if(l.getCustomName()==ChatColor.BLUE+"Сложнейший Босс"){
-			if(!boos3){
-				for(int b=0;b<Blue.size();b++){
-					Blue.get(i).sendMessage("Вы победили!!!");
-				}
-				for(int b=0;b<Red.size();b++){
-					Red.get(b).sendMessage(ChatColor.RED+"Вы проиграли.");
-				}
-				t.schedule(tms, 5000);
-				for(int b=0;b<pls.size();b++){
-					Bukkit.dispatchCommand(Bukkit.getConsoleSender(),"spawn "+pls.get(i).getName());
-				}BossWars.inGame=false;
-			}
-		}
-		if(l.getCustomName()==ChatColor.RED+"Первый Босс"){
-			for(int i=0;i<Red.size();i++){
-				Red.get(i).sendMessage(ChatColor.GREEN+"Вы победили первого босса, поздравляем!!!\nУ вас есть 60 секунд, чтобы подготовиться к следущему.");
-			}
-			if(!boos2){
-				for(int i=0;i<Blue.size();i++){
-					Blue.get(i).sendMessage(ChatColor.RED+"Вас обогнали Красные в убийстве первого босса!");
-				}
-			}
-			boos2=true;
-			t.schedule(tm, 60000);
-			for(int i=0;i<1;i++){
-				World world = Bukkit.getServer().getWorld(sr.worldName);
-				Location loc = new Location(world, sr.x, sr.y, sr.z);
-				LivingEntity le = (LivingEntity) loc.getWorld().spawnEntity(loc, EntityType.ZOMBIE);
-				ItemStack helmet = new ItemStack(Material.IRON_HELMET);
-				ItemStack chestplate = new ItemStack(Material.DIAMOND_CHESTPLATE);
-				ItemStack leggins = new ItemStack(Material.IRON_LEGGINGS);
-				ItemStack boots = new ItemStack(Material.IRON_BOOTS);
-				ItemStack sword = new ItemStack(Material.DIAMOND_SWORD);
-				helmet.addEnchantment(Enchantment.DURABILITY, 5);
-				leggins.addEnchantment(Enchantment.DURABILITY, 5);
-				boots.addEnchantment(Enchantment.DURABILITY, 5);
-				chestplate.addEnchantment(Enchantment.DURABILITY, 5);
-				sword.addEnchantment(Enchantment.DURABILITY, 5);
-				helmet.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1);
-				chestplate.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 2);
-				leggins.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 2);
-				boots.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1);
-				helmet.addEnchantment(Enchantment.WATER_WORKER, 2);
-				chestplate.addEnchantment(Enchantment.ARROW_KNOCKBACK, 1);
-				boots.addEnchantment(Enchantment.FIRE_ASPECT, 1);
-				sword.addEnchantment(Enchantment.DAMAGE_ALL, 2);
-				le.getEquipment().setChestplate(chestplate);
-				le.getEquipment().setHelmet(helmet);
-				le.getEquipment().setBoots(boots);
-				le.getEquipment().setItemInHand(sword);
-				le.getEquipment().setLeggings(leggins);
-				le.setMaxHealth(80);
-				le.setHealth(80);
-				le.setCustomName(ChatColor.RED+"Первый Босс");
-				le.setCustomNameVisible(true);
-				le.getEquipment().setBootsDropChance(100);
-				le.getEquipment().setChestplateDropChance(100);
-				le.getEquipment().setHelmetDropChance(100);
-				le.getEquipment().setItemInHandDropChance(100);
-				le.getEquipment().setLeggingsDropChance(100);
-				le.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 1, 25000));
-				for(int b=0;b<Blue.size();b++){
-					Blue.get(i).sendMessage("Второй Босс заспаунился");
-				}
-			}
-		}
-		if(l.getCustomName()==ChatColor.RED+"Второй Босс"){
-			for(int i=0;i<Blue.size();i++){
-				Blue.get(i).sendMessage(ChatColor.GREEN+"Вы победили второго босса, поздравляем!!!\nУ вас есть 60 секунд, чтобы подготовиться к следущему.");
-			}
-			if(!boos2){
-				for(int i=0;i<Red.size();i++){
-					Red.get(i).sendMessage(ChatColor.RED+"Вас обогнали Красные в убийстве второго босса!");
-				}
-			}
-			boos2=true;
-			t.schedule(tm, 60000);
-			for(int i=0;i<1;i++){
-				World world = Bukkit.getServer().getWorld(sr.worldName);
-				Location loc = new Location(world, sr.x, sr.y, sb.z);
-				LivingEntity le = (LivingEntity) loc.getWorld().spawnEntity(loc, EntityType.WITHER);
-				ItemStack helmet = new ItemStack(Material.DIAMOND_HELMET);
-				ItemStack chestplate = new ItemStack(Material.DIAMOND_CHESTPLATE);
-				ItemStack leggins = new ItemStack(Material.DIAMOND_LEGGINGS);
-				ItemStack boots = new ItemStack(Material.DIAMOND_BOOTS);
-				helmet.addEnchantment(Enchantment.DURABILITY, 5);
-				leggins.addEnchantment(Enchantment.DURABILITY, 5);
-				boots.addEnchantment(Enchantment.DURABILITY, 5);
-				chestplate.addEnchantment(Enchantment.DURABILITY, 5);
-				helmet.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 3);
-				chestplate.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 4);
-				leggins.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 3);
-				boots.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 3);
-				helmet.addEnchantment(Enchantment.WATER_WORKER, 2);
-				chestplate.addEnchantment(Enchantment.ARROW_KNOCKBACK, 1);
-				boots.addEnchantment(Enchantment.FIRE_ASPECT, 1);
-				le.getEquipment().setChestplate(chestplate);
-				le.getEquipment().setHelmet(helmet);
-				le.getEquipment().setBoots(boots);
-				le.getEquipment().setLeggings(leggins);
-				le.setMaxHealth(80);
-				le.setHealth(80);
-				le.setCustomName(ChatColor.RED+"Сложнейший Босс");
-				le.setCustomNameVisible(true);
-				le.getEquipment().setBootsDropChance(100);
-				le.getEquipment().setChestplateDropChance(100);
-				le.getEquipment().setHelmetDropChance(100);
-				le.getEquipment().setItemInHandDropChance(100);
-				le.getEquipment().setLeggingsDropChance(100);
-				le.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 3, 25000));
-				for(int b=0;b<Red.size();b++){
-					Red.get(i).sendMessage("Сложнейший Босс заспаунился");
-				}
-			}
-		}
-		if(l.getCustomName()==ChatColor.RED+"Сложнейший Босс"){
-			if(!boos3){
-				for(int b=0;b<Red.size();b++){
-					Red.get(b).sendMessage(ChatColor.GREEN+"Вы победили!!!");
-				}
-				for(int b=0;b<Blue.size();b++){
-					Blue.get(b).sendMessage(ChatColor.RED+"Вы проиграли.");
-				}
-				t.schedule(tms, 5000);
-				for(int b=0;b<pls.size();b++){
-					Bukkit.dispatchCommand(Bukkit.getConsoleSender(),"spawn "+Red.get(b).getName());
-				}BossWars.inGame=false;
-			}
-		}
-	}	
+public class inGame
+implements Listener {
+    static int i;
+    static Timer t;
+    static Timer s;
+    static List<Player> pls;
+    static List<Player> Red;
+    static List<Player> Blue;
+    static Pos sr;
+    static Pos sb;
+    static Pos mr;
+    static Pos mb;
+    static int b;
+    static boolean boss1;
+    static boolean boos2;
+    static boolean boos3;
+    public static TimerTask tms;
+    static TimerTask tm;
+
+    static {
+        b = 0;
+        boss1 = false;
+        boos2 = false;
+        boos3 = false;
+        tms = new TimerTask(){
+
+            @Override
+            public void run() {
+            }
+        };
+        tm = new TimerTask(){
+
+            @Override
+            public void run() {
+                ItemStack boots;
+                LivingEntity l;
+                ItemStack bow;
+                ItemStack helmet;
+                ItemStack ch;
+                LivingEntity l2;
+                Location loc;
+                ItemStack leggins;
+                LivingEntity l3;
+                ItemStack sword;
+                ItemStack chestplate;
+                LivingEntity l4;
+                Bukkit.getServer().getWorld(inGame.mr.worldName).setTime(6000);
+                int b = BossWars.players.size();
+                int o = 0;
+                while (o < b) {
+                    Player p = BossWars.players.get(o);
+                    p.setLevel(inGame.i - 1);
+                    if (inGame.i <= 3) {
+                        p.playSound(p.getLocation(), Sound.LEVEL_UP, 1.0f, 1.0f);
+                    } else {
+                        p.playSound(p.getLocation(), Sound.SUCCESSFUL_HIT, 1.0f, 1.0f);
+                    }
+                    ++o;
+                }
+                if (--inGame.i == 99 | inGame.i == 199 | inGame.i == 299 | inGame.i == 399 | inGame.i == 499 | inGame.i == 599 | inGame.i == 699 | inGame.i == 799) {
+                    o = 0;
+                    while (o < inGame.pls.size()) {
+                        inGame.pls.get(o).sendMessage("\u0414\u043e \u043d\u0430\u0447\u0430\u043b\u0430 \u0441\u043f\u0430\u0443\u043d\u0430 \u0431\u043e\u0441\u0441\u043e\u0432 " + (inGame.i + 1) / 100 + " \u043c\u0438\u043d\u0443\u0442.");
+                        ++o;
+                    }
+                    inGame.i -= 39;
+                }
+                if (inGame.i % 3 == 0) {
+                    World world = Bukkit.getServer().getWorld(inGame.mr.worldName);
+                    loc = new Location(world, inGame.mr.x, inGame.mr.y, inGame.mr.z);
+                    l4 = (LivingEntity)world.spawnEntity(loc, EntityType.ZOMBIE);
+                    l4.setCustomName((Object)ChatColor.RED + "\u0421\u043b\u0430\u0431\u044b\u0439 \u0432\u0440\u0430\u0433");
+                    l4.setCustomNameVisible(true);
+                    l4.setCanPickupItems(false);
+                    l4.setHealth(15.0);
+                    l4.setMaxHealth(15.0);
+                    l4.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 5000, 1));
+                }
+                if (inGame.i % 3 == 0) {
+                    World world = Bukkit.getServer().getWorld(inGame.mr.worldName);
+                    loc = new Location(world, inGame.mb.x, inGame.mb.y, inGame.mb.z);
+                    l4 = (LivingEntity)world.spawnEntity(loc, EntityType.ZOMBIE);
+                    l4.setCustomName((Object)ChatColor.BLUE + "\u0421\u043b\u0430\u0431\u044b\u0439 \u0432\u0440\u0430\u0433");
+                    l4.setCustomNameVisible(true);
+                    l4.setCanPickupItems(false);
+                    l4.setHealth(15.0);
+                    l4.setMaxHealth(15.0);
+                    l4.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 5000, 1));
+                }
+                if (inGame.i % 8 == 0) {
+                    World world = Bukkit.getServer().getWorld(inGame.mr.worldName);
+                    loc = new Location(world, inGame.mb.x, inGame.mb.y, inGame.mb.z);
+                    l4 = (LivingEntity)world.spawnEntity(loc, EntityType.ZOMBIE);
+                    l4.getEquipment().setItemInHand(new ItemStack(Material.WOOD_SWORD));
+                    ch = new ItemStack(Material.LEATHER_CHESTPLATE);
+                    ch.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1);
+                    l4.setCustomName((Object)ChatColor.BLUE + "\u0412\u0440\u0430\u0433");
+                    l4.setCustomNameVisible(true);
+                    l4.getEquipment().setChestplate(ch);
+                    l4.getEquipment().setChestplateDropChance(0.0f);
+                    l4.getEquipment().setItemInHandDropChance(0.0f);
+                    l4.setCustomName((Object)ChatColor.RED + "Red");
+                    l4.setCustomNameVisible(true);
+                    l4.setCanPickupItems(false);
+                    l4.setHealth(25.0);
+                    l4.setMaxHealth(25.0);
+                }
+                if (inGame.i % 8 == 0) {
+                    World world = Bukkit.getServer().getWorld(inGame.mr.worldName);
+                    loc = new Location(world, inGame.mr.x, inGame.mr.y, inGame.mr.z);
+                    l4 = (LivingEntity)world.spawnEntity(loc, EntityType.ZOMBIE);
+                    l4.getEquipment().setItemInHand(new ItemStack(Material.WOOD_SWORD));
+                    ch = new ItemStack(Material.LEATHER_CHESTPLATE);
+                    ch.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1);
+                    l4.setCustomName((Object)ChatColor.RED + "\u0412\u0440\u0430\u0433");
+                    l4.setCustomNameVisible(true);
+                    l4.getEquipment().setChestplate(ch);
+                    l4.getEquipment().setChestplateDropChance(0.0f);
+                    l4.getEquipment().setItemInHandDropChance(0.0f);
+                    l4.setCustomName((Object)ChatColor.RED + "Red");
+                    l4.setCustomNameVisible(true);
+                    l4.setCanPickupItems(false);
+                    l4.setHealth(25.0);
+                    l4.setMaxHealth(25.0);
+                }
+                if (inGame.i % 15 == 0) {
+                    World world = Bukkit.getServer().getWorld(inGame.mr.worldName);
+                    loc = new Location(world, inGame.mr.x, inGame.mr.y, inGame.mr.z);
+                    sword = new ItemStack(Material.WOOD_SWORD);
+                    chestplate = new ItemStack(Material.LEATHER_CHESTPLATE);
+                    leggins = new ItemStack(Material.LEATHER_LEGGINGS);
+                    helmet = new ItemStack(Material.LEATHER_HELMET);
+                    helmet.addEnchantment(Enchantment.DURABILITY, 5);
+                    leggins.addEnchantment(Enchantment.DURABILITY, 5);
+                    chestplate.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1);
+                    sword.addEnchantment(Enchantment.DAMAGE_ALL, 1);
+                    sword.addEnchantment(Enchantment.DURABILITY, 5);
+                    l = (LivingEntity)world.spawnEntity(loc, EntityType.ZOMBIE);
+                    l.setCustomName((Object)ChatColor.RED + "\u0421\u0438\u043b\u044c\u043d\u044b\u0439 \u0432\u0440\u0430\u0433");
+                    l.setCustomNameVisible(true);
+                    l.getEquipment().setItemInHand(sword);
+                    l.getEquipment().setChestplate(chestplate);
+                    l.getEquipment().setHelmet(helmet);
+                    l.getEquipment().setLeggings(leggins);
+                    l.getEquipment().setLeggingsDropChance(0.0f);
+                    l.getEquipment().setHelmetDropChance(0.0f);
+                    l.getEquipment().setChestplateDropChance(0.0f);
+                    l.getEquipment().setItemInHandDropChance(0.0f);
+                }
+                if (inGame.i % 15 == 0) {
+                    World world = Bukkit.getServer().getWorld(inGame.mr.worldName);
+                    loc = new Location(world, inGame.mb.x, inGame.mb.y, inGame.mb.z);
+                    sword = new ItemStack(Material.WOOD_SWORD);
+                    chestplate = new ItemStack(Material.LEATHER_CHESTPLATE);
+                    leggins = new ItemStack(Material.LEATHER_LEGGINGS);
+                    helmet = new ItemStack(Material.LEATHER_HELMET);
+                    helmet.addEnchantment(Enchantment.DURABILITY, 5);
+                    leggins.addEnchantment(Enchantment.DURABILITY, 5);
+                    chestplate.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1);
+                    sword.addEnchantment(Enchantment.DAMAGE_ALL, 1);
+                    sword.addEnchantment(Enchantment.DURABILITY, 5);
+                    l = (LivingEntity)world.spawnEntity(loc, EntityType.ZOMBIE);
+                    l.setCustomName((Object)ChatColor.BLUE + "\u0421\u0438\u043b\u044c\u043d\u044b\u0439 \u0432\u0440\u0430\u0433");
+                    l.getEquipment().setItemInHand(sword);
+                    l.getEquipment().setChestplate(chestplate);
+                    l.getEquipment().setHelmet(helmet);
+                    l.getEquipment().setLeggings(leggins);
+                    l.getEquipment().setLeggingsDropChance(0.0f);
+                    l.getEquipment().setHelmetDropChance(0.0f);
+                    l.getEquipment().setChestplateDropChance(0.0f);
+                    l.getEquipment().setItemInHandDropChance(0.0f);
+                }
+                if (inGame.i % 22 == 0) {
+                    World world = Bukkit.getServer().getWorld(inGame.mr.worldName);
+                    loc = new Location(world, inGame.mb.x, inGame.mb.y, inGame.mb.z);
+                    sword = new ItemStack(Material.IRON_SWORD);
+                    chestplate = new ItemStack(Material.IRON_CHESTPLATE);
+                    leggins = new ItemStack(Material.LEATHER_LEGGINGS);
+                    helmet = new ItemStack(Material.LEATHER_HELMET);
+                    boots = new ItemStack(Material.LEATHER_BOOTS);
+                    helmet.addEnchantment(Enchantment.DURABILITY, 5);
+                    leggins.addEnchantment(Enchantment.DURABILITY, 5);
+                    chestplate.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1);
+                    sword.addEnchantment(Enchantment.DAMAGE_ALL, 1);
+                    sword.addEnchantment(Enchantment.DURABILITY, 5);
+                    l2 = (LivingEntity)world.spawnEntity(loc, EntityType.ZOMBIE);
+                    l2.setCustomName((Object)ChatColor.BLUE + "\u0421\u0438\u043b\u044c\u043d\u0435\u0439\u0448\u0438\u0439 \u0432\u0440\u0430\u0433");
+                    l2.getEquipment().setBoots(boots);
+                    l2.getEquipment().setItemInHand(sword);
+                    l2.getEquipment().setChestplate(chestplate);
+                    l2.getEquipment().setHelmet(helmet);
+                    l2.getEquipment().setLeggings(leggins);
+                    l2.getEquipment().setBootsDropChance(0.0f);
+                    l2.getEquipment().setLeggingsDropChance(0.0f);
+                    l2.getEquipment().setHelmetDropChance(0.0f);
+                    l2.getEquipment().setChestplateDropChance(0.0f);
+                    l2.getEquipment().setItemInHandDropChance(0.0f);
+                }
+                if (inGame.i % 22 == 0) {
+                    World world = Bukkit.getServer().getWorld(inGame.mr.worldName);
+                    loc = new Location(world, inGame.mr.x, inGame.mr.y, inGame.mr.z);
+                    sword = new ItemStack(Material.IRON_SWORD);
+                    chestplate = new ItemStack(Material.IRON_CHESTPLATE);
+                    leggins = new ItemStack(Material.LEATHER_LEGGINGS);
+                    helmet = new ItemStack(Material.LEATHER_HELMET);
+                    boots = new ItemStack(Material.LEATHER_BOOTS);
+                    helmet.addEnchantment(Enchantment.DURABILITY, 5);
+                    leggins.addEnchantment(Enchantment.DURABILITY, 5);
+                    chestplate.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1);
+                    sword.addEnchantment(Enchantment.DAMAGE_ALL, 1);
+                    sword.addEnchantment(Enchantment.DURABILITY, 5);
+                    l2 = (LivingEntity)world.spawnEntity(loc, EntityType.ZOMBIE);
+                    l2.setCustomName((Object)ChatColor.RED + "\u0421\u0438\u043b\u044c\u043d\u0435\u0439\u0448\u0438\u0439 \u0432\u0440\u0430\u0433");
+                    l2.getEquipment().setBoots(boots);
+                    l2.getEquipment().setItemInHand(sword);
+                    l2.getEquipment().setChestplate(chestplate);
+                    l2.getEquipment().setHelmet(helmet);
+                    l2.getEquipment().setLeggings(leggins);
+                    l2.getEquipment().setBootsDropChance(0.0f);
+                    l2.getEquipment().setLeggingsDropChance(0.0f);
+                    l2.getEquipment().setHelmetDropChance(0.0f);
+                    l2.getEquipment().setChestplateDropChance(0.0f);
+                    l2.getEquipment().setItemInHandDropChance(0.0f);
+                }
+                if (inGame.i % 15 == 0) {
+                    World world = Bukkit.getServer().getWorld(inGame.mr.worldName);
+                    loc = new Location(world, inGame.mr.x, inGame.mr.y, inGame.mr.z);
+                    bow = new ItemStack(Material.BOW);
+                    chestplate = new ItemStack(Material.LEATHER_CHESTPLATE);
+                    chestplate.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1);
+                    chestplate.addEnchantment(Enchantment.DURABILITY, 5);
+                    bow.addEnchantment(Enchantment.ARROW_DAMAGE, 1);
+                    bow.addEnchantment(Enchantment.DURABILITY, 5);
+                    l3 = (LivingEntity)world.spawnEntity(loc, EntityType.SKELETON);
+                    l3.setCustomName((Object)ChatColor.RED + "\u0421\u0442\u0440\u0435\u043b\u043e\u043a");
+                    l3.setCustomNameVisible(true);
+                    l3.getEquipment().setItemInHand(bow);
+                    l3.getEquipment().setChestplate(chestplate);
+                    l3.getEquipment().setChestplateDropChance(0.0f);
+                    l3.getEquipment().setItemInHandDropChance(0.0f);
+                }
+                if (inGame.i % 15 == 0) {
+                    World world = Bukkit.getServer().getWorld(inGame.mr.worldName);
+                    loc = new Location(world, inGame.mb.x, inGame.mb.y, inGame.mb.z);
+                    bow = new ItemStack(Material.BOW);
+                    chestplate = new ItemStack(Material.LEATHER_CHESTPLATE);
+                    chestplate.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1);
+                    chestplate.addEnchantment(Enchantment.DURABILITY, 5);
+                    bow.addEnchantment(Enchantment.ARROW_DAMAGE, 1);
+                    bow.addEnchantment(Enchantment.DURABILITY, 5);
+                    l3 = (LivingEntity)world.spawnEntity(loc, EntityType.SKELETON);
+                    l3.setCustomName((Object)ChatColor.BLUE + "\u0421\u0442\u0440\u0435\u043b\u043e\u043a");
+                    l3.setCustomNameVisible(true);
+                    l3.getEquipment().setItemInHand(bow);
+                    l3.getEquipment().setChestplate(chestplate);
+                    l3.getEquipment().setChestplateDropChance(0.0f);
+                    l3.getEquipment().setItemInHandDropChance(0.0f);
+                }
+            }
+        };
+    }
+
+    public static void Game(List<Player> pl, List<Player> comRed, List<Player> comBlue, Pos spr, Pos spb, Pos sbr, Pos sbb, Pos smr, Pos smb) {
+        double x;
+        Location loc;
+        int b;
+        Location loc2;
+        ItemStack chestplate;
+        double y;
+        LivingEntity l;
+        World world;
+        Location loc1;
+        double z;
+        ItemStack boots;
+        if (!BossWars.inGame) {
+            return;
+        }
+        sr = spr;
+        sb = spb;
+        pls = pl;
+        mr = smr;
+        mb = smb;
+        Red = comRed;
+        Blue = comBlue;
+        Bukkit.dispatchCommand((CommandSender)Bukkit.getConsoleSender(), (String)"gamerule keepInventory true");
+        int i = 0;
+        while (i < 1) {
+            world = Bukkit.getWorld((String)spr.worldName);
+            loc1 = new Location(world, spr.x - 2.0, spr.y - 1.0, spr.z - 2.0);
+            loc2 = new Location(world, spr.x + 2.0, spr.y + 3.0, spr.z + 2.0);
+            x = loc1.getX();
+            while (x < loc2.getX()) {
+                y = loc1.getY();
+                while (y < loc2.getY()) {
+                    z = loc1.getZ();
+                    while (z < loc2.getZ()) {
+                        loc2.getWorld().getBlockAt(new Location(loc1.getWorld(), x, y, z)).setType(Material.GLASS);
+                        z += 1.0;
+                    }
+                    y += 1.0;
+                }
+                x += 1.0;
+            }
+            loc1 = new Location(world, spr.x - 1.0, spr.y, spr.z - 1.0);
+            loc2 = new Location(world, spr.x + 1.0, spr.y + 2.0, spr.z + 1.0);
+            x = loc1.getX();
+            while (x < loc2.getX()) {
+                y = loc1.getY();
+                while (y < loc2.getY()) {
+                    z = loc1.getZ();
+                    while (z < loc2.getZ()) {
+                        loc2.getWorld().getBlockAt(new Location(loc1.getWorld(), x, y, z)).setType(Material.AIR);
+                        z += 1.0;
+                    }
+                    y += 1.0;
+                }
+                x += 1.0;
+            }
+            ++i;
+        }
+        i = 0;
+        while (i < 1) {
+            world = Bukkit.getWorld((String)spb.worldName);
+            loc1 = new Location(world, spb.x - 2.0, spb.y - 1.0, spb.z - 2.0);
+            loc2 = new Location(world, spb.x + 2.0, spb.y + 3.0, spb.z + 2.0);
+            x = loc1.getX();
+            while (x < loc2.getX()) {
+                y = loc1.getY();
+                while (y < loc2.getY()) {
+                    z = loc1.getZ();
+                    while (z < loc2.getZ()) {
+                        loc2.getWorld().getBlockAt(new Location(loc1.getWorld(), x, y, z)).setType(Material.GLASS);
+                        z += 1.0;
+                    }
+                    y += 1.0;
+                }
+                x += 1.0;
+            }
+            loc1 = new Location(world, spb.x - 1.0, spb.y, spb.z - 1.0);
+            loc2 = new Location(world, spb.x + 1.0, spb.y + 2.0, spb.z + 1.0);
+            x = loc1.getX();
+            while (x < loc2.getX()) {
+                y = loc1.getY();
+                while (y < loc2.getY()) {
+                    z = loc1.getZ();
+                    while (z < loc2.getZ()) {
+                        loc2.getWorld().getBlockAt(new Location(loc1.getWorld(), x, y, z)).setType(Material.AIR);
+                        z += 1.0;
+                    }
+                    y += 1.0;
+                }
+                x += 1.0;
+            }
+            ++i;
+        }
+        toTp.tp(spr, spb);
+        inGame.i = 5;
+        t.schedule(tm, 1, 1000);
+        i = 0;
+        while (i < 1) {
+            world = Bukkit.getWorld((String)spr.worldName);
+            loc1 = new Location(world, spr.x - 2.0, spr.y - 1.0, spr.z - 2.0);
+            loc2 = new Location(world, spr.x + 2.0, spr.y + 3.0, spr.z + 2.0);
+            x = loc1.getX();
+            while (x < loc2.getX()) {
+                y = loc1.getY();
+                while (y < loc2.getY()) {
+                    z = loc1.getZ();
+                    while (z < loc2.getZ()) {
+                        loc2.getWorld().getBlockAt(new Location(loc1.getWorld(), x, y, z)).setType(Material.AIR);
+                        z += 1.0;
+                    }
+                    y += 1.0;
+                }
+                x += 1.0;
+            }
+            ++i;
+        }
+        i = 0;
+        while (i < 1) {
+            world = Bukkit.getWorld((String)spb.worldName);
+            loc1 = new Location(world, spb.x - 2.0, spb.y - 1.0, spb.z - 2.0);
+            loc2 = new Location(world, spb.x + 2.0, spb.y + 3.0, spb.z + 2.0);
+            x = loc1.getX();
+            while (x < loc2.getX()) {
+                y = loc1.getY();
+                while (y < loc2.getY()) {
+                    z = loc1.getZ();
+                    while (z < loc2.getZ()) {
+                        loc2.getWorld().getBlockAt(new Location(loc1.getWorld(), x, y, z)).setType(Material.AIR);
+                        z += 1.0;
+                    }
+                    y += 1.0;
+                }
+                x += 1.0;
+            }
+            ++i;
+        }
+        inGame.i = 0;
+        while (inGame.i < pl.size()) {
+            pl.get(inGame.i).sendMessage("\u0414\u043e \u043d\u0430\u0447\u0430\u043b\u0430 \u0441\u043f\u0430\u0443\u043d\u0430 \u0431\u043e\u0441\u0441\u043e\u0432 8 \u043c\u0438\u043d\u0443\u0442!");
+            ++inGame.i;
+        }
+        inGame.i = 800;
+        t.schedule(tm, 1, 1000);
+        comRed = Red;
+        comBlue = Blue;
+        pl = pls;
+        inGame.i = 0;
+        while (inGame.i < pl.size()) {
+            pl.get(inGame.i).sendMessage("\u0414\u043e \u043d\u0430\u0447\u0430\u043b\u0430 \u0441\u043f\u0430\u0443\u043d\u0430 \u0431\u043e\u0441\u0441\u043e\u0432 \u043f\u0430\u0440\u0443 \u0441\u0435\u043a\u0443\u043d\u0434!");
+            ++inGame.i;
+        }
+        i = 0;
+        while (i < 1) {
+            world = Bukkit.getServer().getWorld(sbr.worldName);
+            loc = new Location(world, sbr.x, sbr.y, sbr.z);
+            l = (LivingEntity)loc.getWorld().spawnEntity(loc, EntityType.ZOMBIE);
+            ItemStack helmet = new ItemStack(Material.GOLD_HELMET);
+            chestplate = new ItemStack(Material.IRON_CHESTPLATE);
+            ItemStack leggins = new ItemStack(Material.GOLD_LEGGINGS);
+            boots = new ItemStack(Material.GOLD_BOOTS);
+            ItemStack sword = new ItemStack(Material.IRON_SWORD);
+            helmet.addEnchantment(Enchantment.DURABILITY, 5);
+            leggins.addEnchantment(Enchantment.DURABILITY, 5);
+            boots.addEnchantment(Enchantment.DURABILITY, 5);
+            chestplate.addEnchantment(Enchantment.DURABILITY, 5);
+            sword.addEnchantment(Enchantment.DURABILITY, 5);
+            helmet.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1);
+            chestplate.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 2);
+            leggins.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1);
+            boots.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1);
+            helmet.addEnchantment(Enchantment.WATER_WORKER, 2);
+            chestplate.addEnchantment(Enchantment.ARROW_KNOCKBACK, 1);
+            boots.addEnchantment(Enchantment.FIRE_ASPECT, 1);
+            sword.addEnchantment(Enchantment.DAMAGE_ALL, 1);
+            l.getEquipment().setChestplate(chestplate);
+            l.getEquipment().setHelmet(helmet);
+            l.getEquipment().setBoots(boots);
+            l.getEquipment().setItemInHand(sword);
+            l.getEquipment().setLeggings(leggins);
+            l.setMaxHealth(50.0);
+            l.setHealth(50.0);
+            l.setCustomName((Object)ChatColor.RED + "\u041f\u0435\u0440\u0432\u044b\u0439 \u0411\u043e\u0441\u0441");
+            l.setCustomNameVisible(true);
+            l.getEquipment().setBootsDropChance(100.0f);
+            l.getEquipment().setChestplateDropChance(100.0f);
+            l.getEquipment().setHelmetDropChance(100.0f);
+            l.getEquipment().setItemInHandDropChance(100.0f);
+            l.getEquipment().setLeggingsDropChance(100.0f);
+            b = 0;
+            while (b < Blue.size()) {
+                Red.get(i).sendMessage("\u041f\u0435\u0440\u0432\u044b\u0439 \u0411\u043e\u0441\u0441 \u0437\u0430\u0441\u043f\u0430\u0443\u043d\u0438\u043b\u0441\u044f");
+                ++b;
+            }
+            ++i;
+        }
+        i = 0;
+        while (i < 1) {
+            world = Bukkit.getServer().getWorld(sbb.worldName);
+            loc = new Location(world, sbb.x, sbb.y, sbb.z);
+            l = (LivingEntity)loc.getWorld().spawnEntity(loc, EntityType.ZOMBIE);
+            ItemStack helmet = new ItemStack(Material.GOLD_HELMET);
+            chestplate = new ItemStack(Material.IRON_CHESTPLATE);
+            ItemStack leggins = new ItemStack(Material.GOLD_LEGGINGS);
+            boots = new ItemStack(Material.GOLD_BOOTS);
+            ItemStack sword = new ItemStack(Material.IRON_SWORD);
+            helmet.addEnchantment(Enchantment.DURABILITY, 5);
+            leggins.addEnchantment(Enchantment.DURABILITY, 5);
+            boots.addEnchantment(Enchantment.DURABILITY, 5);
+            chestplate.addEnchantment(Enchantment.DURABILITY, 5);
+            sword.addEnchantment(Enchantment.DURABILITY, 5);
+            helmet.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1);
+            chestplate.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 2);
+            leggins.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1);
+            boots.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1);
+            helmet.addEnchantment(Enchantment.WATER_WORKER, 2);
+            chestplate.addEnchantment(Enchantment.ARROW_KNOCKBACK, 1);
+            boots.addEnchantment(Enchantment.FIRE_ASPECT, 1);
+            sword.addEnchantment(Enchantment.DAMAGE_ALL, 1);
+            l.getEquipment().setChestplate(chestplate);
+            l.getEquipment().setHelmet(helmet);
+            l.getEquipment().setBoots(boots);
+            l.getEquipment().setItemInHand(sword);
+            l.getEquipment().setLeggings(leggins);
+            l.setMaxHealth(50.0);
+            l.setHealth(50.0);
+            l.setCustomName((Object)ChatColor.BLUE + "\u041f\u0435\u0440\u0432\u044b\u0439 \u0411\u043e\u0441\u0441");
+            l.setCustomNameVisible(true);
+            l.getEquipment().setBootsDropChance(100.0f);
+            l.getEquipment().setChestplateDropChance(100.0f);
+            l.getEquipment().setHelmetDropChance(100.0f);
+            l.getEquipment().setItemInHandDropChance(100.0f);
+            l.getEquipment().setLeggingsDropChance(100.0f);
+            b = 0;
+            while (b < Blue.size()) {
+                Blue.get(i).sendMessage("\u041f\u0435\u0440\u0432\u044b\u0439 \u0411\u043e\u0441\u0441 \u0437\u0430\u0441\u043f\u0430\u0443\u043d\u0438\u043b\u0441\u044f");
+                ++b;
+            }
+            ++i;
+        }
+    }
+
+    public void onDeath(PlayerDeathEvent e) {
+        if (!BossWars.inGame) {
+            return;
+        }
+        int i = 0;
+        while (i < e.getDrops().size()) {
+            ((ItemStack)e.getDrops().get(i)).setType(Material.AIR);
+            ++i;
+        }
+        Player p = e.getEntity();
+        if (pls.contains((Object)p)) {
+            World world;
+            int i2;
+            if (Red.contains((Object)p)) {
+                world = Bukkit.getServer().getWorld(inGame.sr.worldName);
+                p.setHealth(20.0);
+                p.teleport(new Location(world, inGame.sr.x, inGame.sr.y, inGame.sr.z));
+                i2 = 0;
+                while (i2 < 36) {
+                    if (p.getInventory().getItem(i2).getType() == Material.BRICK) {
+                        p.getLocation().getWorld().dropItemNaturally(p.getLocation(), p.getInventory().getItem(i2));
+                        p.getInventory().setItem(i2, new ItemStack(Material.AIR));
+                    }
+                    if (p.getInventory().getItem(i2).getType() == Material.IRON_INGOT) {
+                        p.getLocation().getWorld().dropItemNaturally(p.getLocation(), p.getInventory().getItem(i2));
+                        p.getInventory().setItem(i2, new ItemStack(Material.AIR));
+                    }
+                    if (p.getInventory().getItem(i2).getType() == Material.GOLD_INGOT) {
+                        p.getLocation().getWorld().dropItemNaturally(p.getLocation(), p.getInventory().getItem(i2));
+                        p.getInventory().setItem(i2, new ItemStack(Material.AIR));
+                    }
+                    if (p.getInventory().getItem(i2).getType() == Material.DIAMOND) {
+                        p.getLocation().getWorld().dropItemNaturally(p.getLocation(), p.getInventory().getItem(i2));
+                        p.getInventory().setItem(i2, new ItemStack(Material.AIR));
+                    }
+                    if (p.getInventory().getItem(i2).getType() == Material.EMERALD) {
+                        p.getLocation().getWorld().dropItemNaturally(p.getLocation(), p.getInventory().getItem(i2));
+                        p.getInventory().setItem(i2, new ItemStack(Material.AIR));
+                    }
+                    ++i2;
+                }
+            }
+            if (Blue.contains((Object)p)) {
+                world = Bukkit.getServer().getWorld(inGame.sb.worldName);
+                p.setHealth(20.0);
+                p.teleport(new Location(world, inGame.sb.x, inGame.sb.y, inGame.sb.z));
+                i2 = 0;
+                while (i2 < 36) {
+                    if (p.getInventory().getItem(i2).getType() == Material.BRICK) {
+                        p.getLocation().getWorld().dropItemNaturally(p.getLocation(), p.getInventory().getItem(i2));
+                        p.getInventory().setItem(i2, new ItemStack(Material.AIR));
+                    }
+                    if (p.getInventory().getItem(i2).getType() == Material.IRON_INGOT) {
+                        p.getLocation().getWorld().dropItemNaturally(p.getLocation(), p.getInventory().getItem(i2));
+                        p.getInventory().setItem(i2, new ItemStack(Material.AIR));
+                    }
+                    if (p.getInventory().getItem(i2).getType() == Material.GOLD_INGOT) {
+                        p.getLocation().getWorld().dropItemNaturally(p.getLocation(), p.getInventory().getItem(i2));
+                        p.getInventory().setItem(i2, new ItemStack(Material.AIR));
+                    }
+                    if (p.getInventory().getItem(i2).getType() == Material.DIAMOND) {
+                        p.getLocation().getWorld().dropItemNaturally(p.getLocation(), p.getInventory().getItem(i2));
+                        p.getInventory().setItem(i2, new ItemStack(Material.AIR));
+                    }
+                    if (p.getInventory().getItem(i2).getType() == Material.EMERALD) {
+                        p.getLocation().getWorld().dropItemNaturally(p.getLocation(), p.getInventory().getItem(i2));
+                        p.getInventory().setItem(i2, new ItemStack(Material.AIR));
+                    }
+                    ++i2;
+                }
+            }
+        }
+    }
+
+    public void onBossDeath(EntityDeathEvent e) {
+        ItemStack sword;
+        Location loc;
+        int i;
+        int b;
+        ItemStack boots;
+        LivingEntity le;
+        World world;
+        int b2;
+        ItemStack chestplate;
+        ItemStack leggins;
+        ItemStack helmet;
+        LivingEntity l = e.getEntity();
+        if (l.getCustomName() == (Object)ChatColor.BLUE + "\u041f\u0435\u0440\u0432\u044b\u0439 \u0411\u043e\u0441\u0441") {
+            i = 0;
+            while (i < Blue.size()) {
+                Blue.get(i).sendMessage((Object)ChatColor.GREEN + "\u0412\u044b \u043f\u043e\u0431\u0435\u0434\u0438\u043b\u0438 \u043f\u0435\u0440\u0432\u043e\u0433\u043e \u0431\u043e\u0441\u0441\u0430, \u043f\u043e\u0437\u0434\u0440\u0430\u0432\u043b\u044f\u0435\u043c!!!\n\u0423 \u0432\u0430\u0441 \u0435\u0441\u0442\u044c 60 \u0441\u0435\u043a\u0443\u043d\u0434, \u0447\u0442\u043e\u0431\u044b \u043f\u043e\u0434\u0433\u043e\u0442\u043e\u0432\u0438\u0442\u044c\u0441\u044f \u043a \u0441\u043b\u0435\u0434\u0443\u0449\u0435\u043c\u0443.");
+                ++i;
+            }
+            if (!boss1) {
+                i = 0;
+                while (i < Red.size()) {
+                    Red.get(i).sendMessage((Object)ChatColor.RED + "\u0412\u0430\u0441 \u043e\u0431\u043e\u0433\u043d\u0430\u043b\u0438 \u0421\u0438\u043d\u0438\u0435 \u0432 \u0443\u0431\u0438\u0439\u0441\u0442\u0432\u0435 \u043f\u0435\u0440\u0432\u043e\u0433\u043e \u0431\u043e\u0441\u0441\u0430!");
+                    ++i;
+                }
+            }
+            boss1 = true;
+            t.schedule(tm, 60000);
+            i = 0;
+            while (i < 1) {
+                world = Bukkit.getServer().getWorld(inGame.sb.worldName);
+                loc = new Location(world, inGame.sb.x, inGame.sb.y, inGame.sb.z);
+                le = (LivingEntity)loc.getWorld().spawnEntity(loc, EntityType.ZOMBIE);
+                helmet = new ItemStack(Material.IRON_HELMET);
+                chestplate = new ItemStack(Material.DIAMOND_CHESTPLATE);
+                leggins = new ItemStack(Material.IRON_LEGGINGS);
+                boots = new ItemStack(Material.IRON_BOOTS);
+                sword = new ItemStack(Material.DIAMOND_SWORD);
+                helmet.addEnchantment(Enchantment.DURABILITY, 5);
+                leggins.addEnchantment(Enchantment.DURABILITY, 5);
+                boots.addEnchantment(Enchantment.DURABILITY, 5);
+                chestplate.addEnchantment(Enchantment.DURABILITY, 5);
+                sword.addEnchantment(Enchantment.DURABILITY, 5);
+                helmet.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1);
+                chestplate.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 2);
+                leggins.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 2);
+                boots.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1);
+                helmet.addEnchantment(Enchantment.WATER_WORKER, 2);
+                chestplate.addEnchantment(Enchantment.ARROW_KNOCKBACK, 1);
+                boots.addEnchantment(Enchantment.FIRE_ASPECT, 1);
+                sword.addEnchantment(Enchantment.DAMAGE_ALL, 2);
+                le.getEquipment().setChestplate(chestplate);
+                le.getEquipment().setHelmet(helmet);
+                le.getEquipment().setBoots(boots);
+                le.getEquipment().setItemInHand(sword);
+                le.getEquipment().setLeggings(leggins);
+                le.setMaxHealth(80.0);
+                le.setHealth(80.0);
+                le.setCustomName((Object)ChatColor.BLUE + "\u0412\u0442\u043e\u0440\u043e\u0439 \u0411\u043e\u0441\u0441");
+                le.setCustomNameVisible(true);
+                le.getEquipment().setBootsDropChance(100.0f);
+                le.getEquipment().setChestplateDropChance(100.0f);
+                le.getEquipment().setHelmetDropChance(100.0f);
+                le.getEquipment().setItemInHandDropChance(100.0f);
+                le.getEquipment().setLeggingsDropChance(100.0f);
+                le.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 1, 25000));
+                b = 0;
+                while (b < Blue.size()) {
+                    Red.get(i).sendMessage("\u0412\u0442\u043e\u0440\u043e\u0439 \u0411\u043e\u0441\u0441 \u0437\u0430\u0441\u043f\u0430\u0443\u043d\u0438\u043b\u0441\u044f");
+                    ++b;
+                }
+                ++i;
+            }
+        }
+        if (l.getCustomName() == (Object)ChatColor.BLUE + "\u0412\u0442\u043e\u0440\u043e\u0439 \u0411\u043e\u0441\u0441") {
+            i = 0;
+            while (i < Blue.size()) {
+                Blue.get(i).sendMessage((Object)ChatColor.GREEN + "\u0412\u044b \u043f\u043e\u0431\u0435\u0434\u0438\u043b\u0438 \u0432\u0442\u043e\u0440\u043e\u0433\u043e \u0431\u043e\u0441\u0441\u0430, \u043f\u043e\u0437\u0434\u0440\u0430\u0432\u043b\u044f\u0435\u043c!!!\n\u0423 \u0432\u0430\u0441 \u0435\u0441\u0442\u044c 60 \u0441\u0435\u043a\u0443\u043d\u0434, \u0447\u0442\u043e\u0431\u044b \u043f\u043e\u0434\u0433\u043e\u0442\u043e\u0432\u0438\u0442\u044c\u0441\u044f \u043a \u0441\u043b\u0435\u0434\u0443\u0449\u0435\u043c\u0443.");
+                ++i;
+            }
+            if (!boss1) {
+                i = 0;
+                while (i < Red.size()) {
+                    Red.get(i).sendMessage((Object)ChatColor.RED + "\u0412\u0430\u0441 \u043e\u0431\u043e\u0433\u043d\u0430\u043b\u0438 \u0421\u0438\u043d\u0438\u0435 \u0432 \u0443\u0431\u0438\u0439\u0441\u0442\u0432\u0435 \u0432\u0442\u043e\u0440\u043e\u0433\u043e \u0431\u043e\u0441\u0441\u0430!");
+                    ++i;
+                }
+            }
+            boss1 = true;
+            t.schedule(tm, 60000);
+            i = 0;
+            while (i < 1) {
+                world = Bukkit.getServer().getWorld(inGame.sb.worldName);
+                loc = new Location(world, inGame.sb.x, inGame.sb.y, inGame.sb.z);
+                le = (LivingEntity)loc.getWorld().spawnEntity(loc, EntityType.WITHER);
+                helmet = new ItemStack(Material.DIAMOND_HELMET);
+                chestplate = new ItemStack(Material.DIAMOND_CHESTPLATE);
+                leggins = new ItemStack(Material.DIAMOND_LEGGINGS);
+                boots = new ItemStack(Material.DIAMOND_BOOTS);
+                sword = new ItemStack(Material.DIAMOND_SWORD);
+                helmet.addEnchantment(Enchantment.DURABILITY, 5);
+                leggins.addEnchantment(Enchantment.DURABILITY, 5);
+                boots.addEnchantment(Enchantment.DURABILITY, 5);
+                chestplate.addEnchantment(Enchantment.DURABILITY, 5);
+                sword.addEnchantment(Enchantment.DURABILITY, 5);
+                helmet.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 3);
+                chestplate.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 4);
+                leggins.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 3);
+                boots.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 3);
+                helmet.addEnchantment(Enchantment.WATER_WORKER, 2);
+                chestplate.addEnchantment(Enchantment.ARROW_KNOCKBACK, 1);
+                boots.addEnchantment(Enchantment.FIRE_ASPECT, 1);
+                sword.addEnchantment(Enchantment.DAMAGE_ALL, 5);
+                le.getEquipment().setChestplate(chestplate);
+                le.getEquipment().setHelmet(helmet);
+                le.getEquipment().setBoots(boots);
+                le.getEquipment().setItemInHand(sword);
+                le.getEquipment().setLeggings(leggins);
+                le.setMaxHealth(80.0);
+                le.setHealth(80.0);
+                le.setCustomName((Object)ChatColor.BLUE + "\u0421\u043b\u043e\u0436\u043d\u0435\u0439\u0448\u0438\u0439 \u0411\u043e\u0441\u0441");
+                le.setCustomNameVisible(true);
+                le.getEquipment().setBootsDropChance(100.0f);
+                le.getEquipment().setChestplateDropChance(100.0f);
+                le.getEquipment().setHelmetDropChance(100.0f);
+                le.getEquipment().setItemInHandDropChance(100.0f);
+                le.getEquipment().setLeggingsDropChance(100.0f);
+                le.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 3, 25000));
+                b = 0;
+                while (b < Blue.size()) {
+                    Red.get(i).sendMessage("\u0421\u043b\u043e\u0436\u043d\u0435\u0439\u0448\u0438\u0439 \u0411\u043e\u0441\u0441 \u0437\u0430\u0441\u043f\u0430\u0443\u043d\u0438\u043b\u0441\u044f");
+                    ++b;
+                }
+                ++i;
+            }
+        }
+        if (l.getCustomName() == (Object)ChatColor.BLUE + "\u0421\u043b\u043e\u0436\u043d\u0435\u0439\u0448\u0438\u0439 \u0411\u043e\u0441\u0441" && !boos3) {
+            b2 = 0;
+            while (b2 < Blue.size()) {
+                Blue.get(inGame.i).sendMessage("\u0412\u044b \u043f\u043e\u0431\u0435\u0434\u0438\u043b\u0438!!!");
+                ++b2;
+            }
+            b2 = 0;
+            while (b2 < Red.size()) {
+                Red.get(b2).sendMessage((Object)ChatColor.RED + "\u0412\u044b \u043f\u0440\u043e\u0438\u0433\u0440\u0430\u043b\u0438.");
+                ++b2;
+            }
+            t.schedule(tms, 5000);
+            b2 = 0;
+            while (b2 < pls.size()) {
+                Bukkit.dispatchCommand((CommandSender)Bukkit.getConsoleSender(), (String)("spawn " + pls.get(inGame.i).getName()));
+                ++b2;
+            }
+            BossWars.inGame = false;
+        }
+        if (l.getCustomName() == (Object)ChatColor.RED + "\u041f\u0435\u0440\u0432\u044b\u0439 \u0411\u043e\u0441\u0441") {
+            i = 0;
+            while (i < Red.size()) {
+                Red.get(i).sendMessage((Object)ChatColor.GREEN + "\u0412\u044b \u043f\u043e\u0431\u0435\u0434\u0438\u043b\u0438 \u043f\u0435\u0440\u0432\u043e\u0433\u043e \u0431\u043e\u0441\u0441\u0430, \u043f\u043e\u0437\u0434\u0440\u0430\u0432\u043b\u044f\u0435\u043c!!!\n\u0423 \u0432\u0430\u0441 \u0435\u0441\u0442\u044c 60 \u0441\u0435\u043a\u0443\u043d\u0434, \u0447\u0442\u043e\u0431\u044b \u043f\u043e\u0434\u0433\u043e\u0442\u043e\u0432\u0438\u0442\u044c\u0441\u044f \u043a \u0441\u043b\u0435\u0434\u0443\u0449\u0435\u043c\u0443.");
+                ++i;
+            }
+            if (!boos2) {
+                i = 0;
+                while (i < Blue.size()) {
+                    Blue.get(i).sendMessage((Object)ChatColor.RED + "\u0412\u0430\u0441 \u043e\u0431\u043e\u0433\u043d\u0430\u043b\u0438 \u041a\u0440\u0430\u0441\u043d\u044b\u0435 \u0432 \u0443\u0431\u0438\u0439\u0441\u0442\u0432\u0435 \u043f\u0435\u0440\u0432\u043e\u0433\u043e \u0431\u043e\u0441\u0441\u0430!");
+                    ++i;
+                }
+            }
+            boos2 = true;
+            t.schedule(tm, 60000);
+            i = 0;
+            while (i < 1) {
+                world = Bukkit.getServer().getWorld(inGame.sr.worldName);
+                loc = new Location(world, inGame.sr.x, inGame.sr.y, inGame.sr.z);
+                le = (LivingEntity)loc.getWorld().spawnEntity(loc, EntityType.ZOMBIE);
+                helmet = new ItemStack(Material.IRON_HELMET);
+                chestplate = new ItemStack(Material.DIAMOND_CHESTPLATE);
+                leggins = new ItemStack(Material.IRON_LEGGINGS);
+                boots = new ItemStack(Material.IRON_BOOTS);
+                sword = new ItemStack(Material.DIAMOND_SWORD);
+                helmet.addEnchantment(Enchantment.DURABILITY, 5);
+                leggins.addEnchantment(Enchantment.DURABILITY, 5);
+                boots.addEnchantment(Enchantment.DURABILITY, 5);
+                chestplate.addEnchantment(Enchantment.DURABILITY, 5);
+                sword.addEnchantment(Enchantment.DURABILITY, 5);
+                helmet.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1);
+                chestplate.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 2);
+                leggins.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 2);
+                boots.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1);
+                helmet.addEnchantment(Enchantment.WATER_WORKER, 2);
+                chestplate.addEnchantment(Enchantment.ARROW_KNOCKBACK, 1);
+                boots.addEnchantment(Enchantment.FIRE_ASPECT, 1);
+                sword.addEnchantment(Enchantment.DAMAGE_ALL, 2);
+                le.getEquipment().setChestplate(chestplate);
+                le.getEquipment().setHelmet(helmet);
+                le.getEquipment().setBoots(boots);
+                le.getEquipment().setItemInHand(sword);
+                le.getEquipment().setLeggings(leggins);
+                le.setMaxHealth(80.0);
+                le.setHealth(80.0);
+                le.setCustomName((Object)ChatColor.RED + "\u041f\u0435\u0440\u0432\u044b\u0439 \u0411\u043e\u0441\u0441");
+                le.setCustomNameVisible(true);
+                le.getEquipment().setBootsDropChance(100.0f);
+                le.getEquipment().setChestplateDropChance(100.0f);
+                le.getEquipment().setHelmetDropChance(100.0f);
+                le.getEquipment().setItemInHandDropChance(100.0f);
+                le.getEquipment().setLeggingsDropChance(100.0f);
+                le.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 1, 25000));
+                b = 0;
+                while (b < Blue.size()) {
+                    Blue.get(i).sendMessage("\u0412\u0442\u043e\u0440\u043e\u0439 \u0411\u043e\u0441\u0441 \u0437\u0430\u0441\u043f\u0430\u0443\u043d\u0438\u043b\u0441\u044f");
+                    ++b;
+                }
+                ++i;
+            }
+        }
+        if (l.getCustomName() == (Object)ChatColor.RED + "\u0412\u0442\u043e\u0440\u043e\u0439 \u0411\u043e\u0441\u0441") {
+            i = 0;
+            while (i < Blue.size()) {
+                Blue.get(i).sendMessage((Object)ChatColor.GREEN + "\u0412\u044b \u043f\u043e\u0431\u0435\u0434\u0438\u043b\u0438 \u0432\u0442\u043e\u0440\u043e\u0433\u043e \u0431\u043e\u0441\u0441\u0430, \u043f\u043e\u0437\u0434\u0440\u0430\u0432\u043b\u044f\u0435\u043c!!!\n\u0423 \u0432\u0430\u0441 \u0435\u0441\u0442\u044c 60 \u0441\u0435\u043a\u0443\u043d\u0434, \u0447\u0442\u043e\u0431\u044b \u043f\u043e\u0434\u0433\u043e\u0442\u043e\u0432\u0438\u0442\u044c\u0441\u044f \u043a \u0441\u043b\u0435\u0434\u0443\u0449\u0435\u043c\u0443.");
+                ++i;
+            }
+            if (!boos2) {
+                i = 0;
+                while (i < Red.size()) {
+                    Red.get(i).sendMessage((Object)ChatColor.RED + "\u0412\u0430\u0441 \u043e\u0431\u043e\u0433\u043d\u0430\u043b\u0438 \u041a\u0440\u0430\u0441\u043d\u044b\u0435 \u0432 \u0443\u0431\u0438\u0439\u0441\u0442\u0432\u0435 \u0432\u0442\u043e\u0440\u043e\u0433\u043e \u0431\u043e\u0441\u0441\u0430!");
+                    ++i;
+                }
+            }
+            boos2 = true;
+            t.schedule(tm, 60000);
+            i = 0;
+            while (i < 1) {
+                world = Bukkit.getServer().getWorld(inGame.sr.worldName);
+                loc = new Location(world, inGame.sr.x, inGame.sr.y, inGame.sb.z);
+                le = (LivingEntity)loc.getWorld().spawnEntity(loc, EntityType.WITHER);
+                helmet = new ItemStack(Material.DIAMOND_HELMET);
+                chestplate = new ItemStack(Material.DIAMOND_CHESTPLATE);
+                leggins = new ItemStack(Material.DIAMOND_LEGGINGS);
+                boots = new ItemStack(Material.DIAMOND_BOOTS);
+                helmet.addEnchantment(Enchantment.DURABILITY, 5);
+                leggins.addEnchantment(Enchantment.DURABILITY, 5);
+                boots.addEnchantment(Enchantment.DURABILITY, 5);
+                chestplate.addEnchantment(Enchantment.DURABILITY, 5);
+                helmet.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 3);
+                chestplate.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 4);
+                leggins.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 3);
+                boots.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 3);
+                helmet.addEnchantment(Enchantment.WATER_WORKER, 2);
+                chestplate.addEnchantment(Enchantment.ARROW_KNOCKBACK, 1);
+                boots.addEnchantment(Enchantment.FIRE_ASPECT, 1);
+                le.getEquipment().setChestplate(chestplate);
+                le.getEquipment().setHelmet(helmet);
+                le.getEquipment().setBoots(boots);
+                le.getEquipment().setLeggings(leggins);
+                le.setMaxHealth(80.0);
+                le.setHealth(80.0);
+                le.setCustomName((Object)ChatColor.RED + "\u0421\u043b\u043e\u0436\u043d\u0435\u0439\u0448\u0438\u0439 \u0411\u043e\u0441\u0441");
+                le.setCustomNameVisible(true);
+                le.getEquipment().setBootsDropChance(100.0f);
+                le.getEquipment().setChestplateDropChance(100.0f);
+                le.getEquipment().setHelmetDropChance(100.0f);
+                le.getEquipment().setItemInHandDropChance(100.0f);
+                le.getEquipment().setLeggingsDropChance(100.0f);
+                le.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 3, 25000));
+                int b3 = 0;
+                while (b3 < Red.size()) {
+                    Red.get(i).sendMessage("\u0421\u043b\u043e\u0436\u043d\u0435\u0439\u0448\u0438\u0439 \u0411\u043e\u0441\u0441 \u0437\u0430\u0441\u043f\u0430\u0443\u043d\u0438\u043b\u0441\u044f");
+                    ++b3;
+                }
+                ++i;
+            }
+        }
+        if (l.getCustomName() == (Object)ChatColor.RED + "\u0421\u043b\u043e\u0436\u043d\u0435\u0439\u0448\u0438\u0439 \u0411\u043e\u0441\u0441" && !boos3) {
+            b2 = 0;
+            while (b2 < Red.size()) {
+                Red.get(b2).sendMessage((Object)ChatColor.GREEN + "\u0412\u044b \u043f\u043e\u0431\u0435\u0434\u0438\u043b\u0438!!!");
+                ++b2;
+            }
+            b2 = 0;
+            while (b2 < Blue.size()) {
+                Blue.get(b2).sendMessage((Object)ChatColor.RED + "\u0412\u044b \u043f\u0440\u043e\u0438\u0433\u0440\u0430\u043b\u0438.");
+                ++b2;
+            }
+            t.schedule(tms, 5000);
+            b2 = 0;
+            while (b2 < pls.size()) {
+                Bukkit.dispatchCommand((CommandSender)Bukkit.getConsoleSender(), (String)("spawn " + Red.get(b2).getName()));
+                ++b2;
+            }
+            BossWars.inGame = false;
+        }
+    }
+
 }
+
