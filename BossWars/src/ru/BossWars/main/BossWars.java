@@ -133,14 +133,13 @@ implements Listener {
 
     public void onDisable() {
         if (!pls.isEmpty()) {
-            int i = 0;
-            while (i < pls.size()) {
+            for(int i=0;i<pls.size();i++){
                 int a = 0;
                 while (a < 36) {
                     BossWars.pls.get((int)i).p.getInventory().setItem(a, BossWars.pls.get((int)a).inv.getItem(a));
                     ++a;
                 }
-                ++i;
+                i++;
             }
             pls.clear();
         }
