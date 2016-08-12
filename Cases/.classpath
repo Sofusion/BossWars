@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/gdk1"/>
+	<classpathentry kind="lib" path="D:/мини/плагин/BossWars.git/bukkit-1.7.9-R0.2.jar"/>
+	<classpathentry kind="lib" path="D:/мини/плагин/BossWars.git/spigot-api-1.8-R0.1-20141207.010705-1.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

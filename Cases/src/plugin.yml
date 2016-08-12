@@ -1,0 +1,9 @@
+name: Cases
+version: 1.0
+main: ru.cases.main.Main
+
+commands:
+  c:
+    usage: /c <cmd> <args>
+  cases: 
+    usage: /cases <cmd> <args>
